@@ -1,0 +1,30 @@
+{
+  "name": "shipflow-web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "vitest",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0",
+    "zustand": "^4.0.0",
+    "react-query": "^3.0.0",
+    "axios": "^0.21.1",
+    "typescript": "^4.0.0"
+  },
+  "devDependencies": {
+    "vite": "^2.0.0",
+    "vitest": "^0.0.0",
+    "eslint": "^7.0.0",
+    "prettier": "^2.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^1.0.0"
+  }
+}
