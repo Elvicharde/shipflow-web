@@ -1,31 +1,30 @@
 import React from 'react';
-import { useWizard } from '../../../hooks/useWizard';
-import { PricingDetails } from '../../../components/PricingDetails';
 import { Button } from '../../../components/ui/Button';
+import { WizardHook } from './useWizard';
 
-const Step4Pricing: React.FC = () => {
-    const { wizardState, setWizardState } = useWizard();
+interface Step4PricingProps {
+  wizard: WizardHook;
+}
 
-    const handleNext = () => {
-        // Logic to proceed to the next step
-        setWizardState({ ...wizardState, currentStep: wizardState.currentStep + 1 });
-    };
-
-    const handleBack = () => {
-        // Logic to go back to the previous step
-        setWizardState({ ...wizardState, currentStep: wizardState.currentStep - 1 });
-    };
-
-    return (
-        <div className="step4-pricing">
-            <h2>Pricing Details</h2>
-            <PricingDetails pricingData={wizardState.pricingData} />
-            <div className="button-group">
-                <Button onClick={handleBack} variant="secondary">Back</Button>
-                <Button onClick={handleNext} variant="primary">Next</Button>
-            </div>
-        </div>
-    );
+const Step4Pricing: React.FC<Step4PricingProps> = ({ wizard }) => {
+  // Example: use wizard.pricing and wizard.setPricing for pricing logic
+  return (
+    <div className="step4-pricing">
+      <h2>Pricing Details</h2>
+      <pre className="bg-gray-100 p-2 rounded text-xs overflow-x-auto mb-4">
+        {JSON.stringify(wizard.pricing, null, 2)}
+      </pre>
+      {/* Example pricing UI would go here */}
+      <div className="button-group">
+        <Button onClick={wizard.prevStep} variant="secondary">
+          Back
+        </Button>
+        <Button onClick={wizard.nextStep} className='bg-blue-600 hover:bg-blue-700 text-white cursor-pointer'>
+          Finish
+        </Button>
+      </div>
+    </div>
+  );
 };
 
 export default Step4Pricing;
