@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Button } from '../../../components/ui/Button';
-import { WizardHook } from '../../../hooks/useWizard';
+import { WizardHook } from '@/hooks/useWizard';
 
 interface Step1UploadProps {
   wizard: WizardHook;
@@ -67,7 +67,7 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-8 max-w-2xl mx-auto">
+    <div className="p-8 max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold mb-1">Upload Shipment Data</h2>
       <p className="text-gray-500 mb-6">
         Upload your shipment CSV file to begin the bulk processing wizard.
@@ -191,3 +191,4 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
 };
 
 export default Step1Upload;
+    

@@ -1,3 +1,4 @@
+import SuccessPage from '../pages/BulkShipments/BulkWizard/SuccessPage';
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from '../pages/Home';
@@ -19,6 +20,7 @@ function Routes() {
       children: [
         { path: 'dashboard', element: <Dashboard /> },
         { path: 'dashboard/upload', element: <WizardLayout /> },
+        { path: 'bulkshipments/bulkwizard/success', element: <SuccessPage /> },
         // { path: "bulk", element: <BulkList /> },
         // { path: "bulk/upload", element: <BulkUpload /> },
         // { path: "shipments/:id", element: <ShipmentDetails /> },

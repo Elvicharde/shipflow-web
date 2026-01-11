@@ -1,3 +1,4 @@
+import { SHIPMENT_VALIDATION_DATA } from '@/utils/shipmentValidationSeed';
 import { useState } from 'react';
 
 export interface WizardHook {
@@ -36,23 +37,7 @@ const useWizard = (stepsLength: number): WizardHook => {
     setImported(false);
     setTimeout(() => {
       setCsvFile(file);
-      setCsvData([
-        {
-          customer_full_name: 'Alice Johnson',
-          phone_mobile: '+1 (555) 912-3456',
-          shipping_address_1: '123 Maple St',
-        },
-        {
-          customer_full_name: 'Bob Smith',
-          phone_mobile: '+1 (555) 912-9876',
-          shipping_address_1: '456 Oak Rd',
-        },
-        {
-          customer_full_name: 'Charlie Davis',
-          phone_mobile: '+1 (555) 612-4433',
-          shipping_address_1: '789 Pine Ln',
-        },
-      ]);
+      setCsvData(SHIPMENT_VALIDATION_DATA);
       setImported(true);
       nextStep();
     }, 1200);

@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import Step1Upload from './Step1Upload';
 import Step2MapValidation from './Step2MapValidation';
-import Step3PackageValidation from './Step3PackageValidation';
-import Step4Pricing from './Step4Pricing';
+import Step3ShippingInformation from './Step3ShippingInformation';
+import Step4Review from './Step4Review';
 import useWizard from '../../../hooks/useWizard';
 
 const steps = [
   { label: 'Upload', component: Step1Upload },
   { label: 'Map Fields', component: Step2MapValidation },
-  { label: 'Review', component: Step3PackageValidation },
-  { label: 'Confirm', component: Step4Pricing },
+  { label: 'Shipping Info', component: Step3ShippingInformation },
+  { label: 'Final Review', component: Step4Review },
 ];
 
 const WizardLayout: React.FC = () => {
