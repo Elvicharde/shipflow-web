@@ -1,5 +1,5 @@
 import React from 'react';
-import { WizardHook } from './useWizard';
+import { WizardHook } from '../../../hooks/useWizard';
 
 interface Step3PackageValidationProps {
   wizard: WizardHook;

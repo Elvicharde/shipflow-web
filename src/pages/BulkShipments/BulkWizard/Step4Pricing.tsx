@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../../../components/ui/Button';
-import { WizardHook } from './useWizard';
+import { WizardHook } from '../../../hooks/useWizard';
 
 interface Step4PricingProps {
   wizard: WizardHook;
@@ -19,7 +19,10 @@ const Step4Pricing: React.FC<Step4PricingProps> = ({ wizard }) => {
         <Button onClick={wizard.prevStep} variant="secondary">
           Back
         </Button>
-        <Button onClick={wizard.nextStep} className='bg-blue-600 hover:bg-blue-700 text-white cursor-pointer'>
+        <Button
+          onClick={wizard.nextStep}
+          className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+        >
           Finish
         </Button>
       </div>

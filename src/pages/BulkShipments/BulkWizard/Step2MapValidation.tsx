@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../../../components/ui/Button';
-import { WizardHook } from './useWizard';
+import { WizardHook } from '../../../hooks/useWizard';
 
 interface Step2MapValidationProps {
   wizard: WizardHook;

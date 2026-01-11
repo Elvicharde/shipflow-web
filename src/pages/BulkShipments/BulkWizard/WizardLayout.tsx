@@ -4,7 +4,7 @@ import Step1Upload from './Step1Upload';
 import Step2MapValidation from './Step2MapValidation';
 import Step3PackageValidation from './Step3PackageValidation';
 import Step4Pricing from './Step4Pricing';
-import useWizard from './useWizard';
+import useWizard from '../../../hooks/useWizard';
 
 const steps = [
   { label: 'Upload', component: Step1Upload },
