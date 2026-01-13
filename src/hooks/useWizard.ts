@@ -7,9 +7,11 @@ export interface WizardHook {
   nextStep: () => void;
   prevStep: () => void;
   imported: boolean;
-  simulateImport: (file: File) => void;
+  setImported: (imported: boolean) => void;
   csvFile: File | null;
+  setCsvFile: (file: File | null) => void;
   csvData: any[];
+  setCsvData: (data: any[]) => void;
   setMapping: (mapping: any) => void;
   mapping: any;
   setValidation: (validation: any) => void;
@@ -32,26 +34,17 @@ const useWizard = (stepsLength: number): WizardHook => {
     setCurrentStep((s) => Math.min(s + 1, stepsLength - 1));
   const prevStep = () => setCurrentStep((s) => Math.max(s - 1, 0));
 
-  // Dummy simulation for import
-  const simulateImport = (file: File) => {
-    setImported(false);
-    setTimeout(() => {
-      setCsvFile(file);
-      setCsvData(SHIPMENT_VALIDATION_DATA);
-      setImported(true);
-      nextStep();
-    }, 1200);
-  };
-
   return {
     currentStep,
     goToStep,
     nextStep,
     prevStep,
     imported,
-    simulateImport,
+    setImported,
     csvFile,
+    setCsvFile,
     csvData,
+    setCsvData,
     setMapping,
     mapping,
     setValidation,

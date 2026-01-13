@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { WizardHook } from '@/hooks/useWizard';
-import { Button } from '../../../components/ui/Button';
+import Button from '../../../components/ui/Button';
 import { AlertDialog, AlertDialogContent } from '@/components/ui/alert-dialog';
 import ConfirmationComponent from '../../../components/ui/ConfirmationComponent';
 
@@ -186,7 +186,7 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
           </div>
 
           {/* Pricing Summary */}
-          <div className="w-full md:w-80 flex-shrink-0">
+          <div className="w-full md:w-80 shrink-0">
             <div className="bg-white border rounded-lg p-4 mb-4">
               <div className="font-semibold mb-2">Pricing Summary</div>
               <div className="flex justify-between text-sm mb-1">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
 import { PlusIcon } from 'lucide-react';
@@ -201,11 +201,17 @@ const Dashboard: React.FC = () => {
                     placeholder="Search by Tracking ID, Recipient or City..."
                     className="w-80"
                   />
-                  <Button variant="outline">All Statuses</Button>
-                  <Button variant="outline">Service: Ground</Button>
-                  <Button variant="outline">Filters</Button>
+                  <Button variant="outline" className="w-10">
+                    All Statuses
+                  </Button>
+                  <Button variant="outline" className="w-10">
+                    Service: Ground
+                  </Button>
+                  <Button variant="outline" className="w-10">
+                    Filters
+                  </Button>
                   <Link to="upload" className="ml-auto">
-                    <Button className="max-h-10 px-4 py-4 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer">
+                    <Button className="w-10 max-h-10 px-4 py-4 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer">
                       <PlusIcon className="size-6" />
                       Upload CSV
                     </Button>
@@ -276,7 +282,10 @@ const Dashboard: React.FC = () => {
                           </td>
                           <td className="px-6 py-4">{s.date}</td>
                           <td className="px-6 py-4 text-right">
-                            <Button variant="ghost" size="icon">
+                            <Button
+                              variant="outline"
+                              className="w-10 p-2 rounded-md"
+                            >
                               <svg
                                 className="w-5 h-5"
                                 fill="none"
@@ -297,23 +306,23 @@ const Dashboard: React.FC = () => {
                   <div className="flex items-center justify-between px-6 py-3 text-xs text-muted-foreground bg-muted/50 border-t">
                     <span>Showing 1 to 5 of 1,284 shipments</span>
                     <div className="flex gap-1">
-                      <Button size="sm" variant="outline">
+                      <Button variant="outline" className="w-9">
                         Previous
                       </Button>
-                      <Button size="sm" variant="secondary">
+                      <Button variant="secondary" className="w-9">
                         1
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button variant="outline" className="w-9">
                         2
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button variant="outline" className="w-9">
                         3
                       </Button>
                       <span className="px-2">...</span>
-                      <Button size="sm" variant="outline">
+                      <Button variant="outline" className="w-9">
                         257
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button variant="outline" className="w-9">
                         Next
                       </Button>
                     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { PlusIcon } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import { Link, useNavigate } from 'react-router-dom';
 
 const EmptyShipments: React.FC = () => {
@@ -27,10 +27,10 @@ const EmptyShipments: React.FC = () => {
         </div>
         <div className="flex max-w-70 items-center justify-center  gap-x-3">
           <Link to="upload">
-            <Button className="max-h-10 px-4 py-4 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer">
+            <Button className="w-10 max-h-10 px-4 py-4 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer">
               <PlusIcon className="size-6" />
               Upload CSV
-            </Button> 
+            </Button>
           </Link>
         </div>
       </div>

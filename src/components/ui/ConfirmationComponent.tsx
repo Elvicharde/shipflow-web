@@ -6,7 +6,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from './alert-dialog';
-import { Button } from './Button';
+import Button from './Button';
 
 const ConfirmationComponent = ({
   message,
