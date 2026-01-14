@@ -24,6 +24,7 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
   const [dragActive, setDragActive] = useState(false);
   const [progress, setProgress] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
   const {
@@ -98,11 +99,13 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
     setApiError(null);
     setProgress(0);
     setCompleted(false);
+    setUploading(true);
 
     // uploadMutation now expects a File object
     uploadMutation.mutate(data.file, {
       onSuccess: (response) => {
         setProgress(100);
+        setUploading(false);
         setCompleted(true);
         setUploadResponse(response);
       },
@@ -114,8 +117,6 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
       },
     });
   };
-
-  const uploading = uploadMutation.isLoading;
 
   return (
     <div className="p-8 max-w-2xl mx-auto">
