@@ -1,49 +1,57 @@
+import { SHIPMENT_VALIDATION_DATA } from '@/utils/shipmentValidationSeed';
 import { useState } from 'react';
-import { useStore } from '../stores/wizard.store';
 
-const useWizard = () => {
-    const { activeStep, setActiveStep, steps, setStepsValidity } = useStore();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+export interface WizardHook {
+  currentStep: number;
+  goToStep: (step: number) => void;
+  nextStep: () => void;
+  prevStep: () => void;
+  imported: boolean;
+  setImported: (imported: boolean) => void;
+  csvFile: File | null;
+  setCsvFile: (file: File | null) => void;
+  csvData: any[];
+  setCsvData: (data: any[]) => void;
+  setMapping: (mapping: any) => void;
+  mapping: any;
+  setValidation: (validation: any) => void;
+  validation: any;
+  setPricing: (pricing: any) => void;
+  pricing: any;
+}
 
-    const nextStep = () => {
-        if (activeStep < steps.length - 1) {
-            setActiveStep(activeStep + 1);
-        }
-    };
+const useWizard = (stepsLength: number): WizardHook => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [imported, setImported] = useState(false);
+  const [csvFile, setCsvFile] = useState<File | null>(null);
+  const [csvData, setCsvData] = useState<any[]>([]);
+  const [mapping, setMapping] = useState<any>({});
+  const [validation, setValidation] = useState<any>({});
+  const [pricing, setPricing] = useState<any>({});
 
-    const previousStep = () => {
-        if (activeStep > 0) {
-            setActiveStep(activeStep - 1);
-        }
-    };
+  const goToStep = (step: number) => setCurrentStep(step);
+  const nextStep = () =>
+    setCurrentStep((s) => Math.min(s + 1, stepsLength - 1));
+  const prevStep = () => setCurrentStep((s) => Math.max(s - 1, 0));
 
-    const validateStep = (isValid: boolean) => {
-        setStepsValidity((prev) => {
-            const newValidity = [...prev];
-            newValidity[activeStep] = isValid;
-            return newValidity;
-        });
-    };
-
-    const submitWizard = async () => {
-        setIsSubmitting(true);
-        try {
-            // Implement submission logic here
-        } catch (error) {
-            console.error('Error submitting wizard:', error);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    return {
-        activeStep,
-        nextStep,
-        previousStep,
-        validateStep,
-        submitWizard,
-        isSubmitting,
-    };
+  return {
+    currentStep,
+    goToStep,
+    nextStep,
+    prevStep,
+    imported,
+    setImported,
+    csvFile,
+    setCsvFile,
+    csvData,
+    setCsvData,
+    setMapping,
+    mapping,
+    setValidation,
+    validation,
+    setPricing,
+    pricing,
+  };
 };
 
 export default useWizard;

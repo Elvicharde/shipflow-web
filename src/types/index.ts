@@ -1,39 +1,44 @@
-// This file defines the TypeScript types used throughout the Shipflow application.
+/**
+ * Central barrel file for all application types
+ * Based on backend shipflow-api models
+ */
 
-export interface Shipment {
-    id: string;
-    address: Address;
-    package: Package;
-    status: string;
-    createdAt: string;
-    updatedAt: string;
-}
+import { ShipmentInput } from './shipment';
 
-export interface Address {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-}
+// Address types
+export type {
+  Address,
+  SavedAddress,
+  AddressInput,
+  SavedAddressInput,
+} from './address';
 
-export interface Package {
-    weight: number;
-    dimensions: Dimensions;
-    type: string;
-}
+// Package types
+export type {
+  Package,
+  SavedPackage,
+  PackageInput,
+  SavedPackageInput,
+} from './package';
 
-export interface Dimensions {
-    length: number;
-    width: number;
-    height: number;
-}
+// Shipment types
+export { ShipmentStatus, ValidationStatus, PricingStatus } from './shipment';
+export type {
+  Shipment,
+  ShipmentInput,
+  ShipmentUpdateInput,
+  ValidationError,
+  EditSenderData,
+  EditRecipientData,
+  EditPackageData,
+  EditOthersData,
+} from './shipment';
 
-export interface UploadSession {
-    id: string;
-    fileName: string;
-    status: string;
-    createdAt: string;
-    updatedAt: string;
-    shipments: Shipment[];
-}
+// Upload session types
+export { UploadSessionStatus } from './upload';
+export type {
+  UploadSession,
+  UploadResponse,
+  SessionWithShipments,
+  UploadResult,
+} from './upload';

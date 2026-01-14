@@ -136,3 +136,7 @@ If data comes from the backend → React Query owns it
 If data comes from a click → Zustand owns it
 
 Violating this rule is a bug.
+
+Routing uses React Router v6.4+ with createBrowserRouter and RouterProvider.
+Do NOT use Switch, BrowserRouter JSX, or component props.
+Routes must be defined as route objects.

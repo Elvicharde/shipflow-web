@@ -1,23 +1,35 @@
+import SuccessPage from '../pages/BulkShipments/BulkWizard/SuccessPage';
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from '../pages/Home';
+
 import Dashboard from '../pages/Dashboard/Dashboard';
 import BulkList from '../pages/BulkShipments/BulkList';
 import BulkUpload from '../pages/BulkShipments/BulkUpload';
 import ShipmentDetails from '../pages/ShipmentDetails/ShipmentDetails';
 import Settings from '../pages/Settings/Settings';
+import { Layout } from '@/components/layout/Layout';
+import WizardLayout from '../pages/BulkShipments/BulkWizard/WizardLayout';
 
-const Routes: React.FC = () => {
-    return (
-        <Router>
-            <Switch>
-                <Route path="/" exact component={Dashboard} />
-                <Route path="/bulk" exact component={BulkList} />
-                <Route path="/bulk/upload" component={BulkUpload} />
-                <Route path="/shipments/:id" component={ShipmentDetails} />
-                <Route path="/settings" component={Settings} />
-            </Switch>
-        </Router>
-    );
-};
+function Routes() {
+  const router = createBrowserRouter([
+    { path: '/', element: <Home /> },
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        { path: 'dashboard', element: <Dashboard /> },
+        { path: 'dashboard/upload', element: <WizardLayout /> },
+        { path: 'bulkshipments/bulkwizard/success', element: <SuccessPage /> },
+        // { path: "bulk", element: <BulkList /> },
+        // { path: "bulk/upload", element: <BulkUpload /> },
+        // { path: "shipments/:id", element: <ShipmentDetails /> },
+        // { path: "settings", element: <Settings /> },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
+}
 
 export default Routes;
