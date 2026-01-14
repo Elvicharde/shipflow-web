@@ -8,6 +8,7 @@ import { DataTable } from '@/components/ui/DataTable';
 import { getBulkWizardColumns } from './bulkWizardColumns';
 import { useDeleteShipment } from '@/app/api/shipments-api';
 
+
 interface Step2MapValidationProps {
   wizard: WizardHook;
 }

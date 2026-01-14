@@ -4,47 +4,66 @@ import { WizardHook } from '@/hooks/useWizard';
 import Button from '../../../components/ui/Button';
 import { AlertDialog, AlertDialogContent } from '@/components/ui/alert-dialog';
 import ConfirmationComponent from '../../../components/ui/ConfirmationComponent';
+import { useAppStore } from '@/app/store';
+import { useGetUploadedShipments } from '@/app/api/upload-api';
+import { UploadResponse, UploadResult } from '@/types';
+
+const shippingServices = [
+  { value: 'UPS', label: 'UPS' },
+  { value: 'FedEx', label: 'FedEx' },
+  { value: 'DHL', label: 'DHL' },
+  { value: 'USPS', label: 'USPS' },
+];
+const shippingOptions = [
+  { value: 'priority', label: 'Priority Mail' },
+  { value: 'ground', label: 'Ground Shipping' },
+];
+
+function simulateCost(service: string, option: string) {
+  // Simple simulation: Priority is more expensive, UPS/FedEx more expensive than USPS/DHL
+  let base = option === 'priority' ? 8 : 5;
+  if (service === 'UPS' || service === 'FedEx') base += 2;
+  if (service === 'DHL') base += 1;
+  return base + Math.random(); // Add a small random value for demo
+}
 
 const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
-  // Demo state for dialog
   const [isConfirm, setConfirm] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  // Demo batch and pricing data
-  const batchId = '2904-B';
-  const total = 150;
-  const priority = 80;
-  const ground = 70;
+  // Get valid shipments from upload session (same as Step3)
+  const uploadResponse: UploadResponse | null = useAppStore(
+    (s) => s.uploadResponse,
+  );
+  const sessionId = uploadResponse?.upload_session_id || 'N/A';
+  const { data: sessionShipments } = useGetUploadedShipments(
+    sessionId as string,
+  );
+  const results: UploadResult[] =
+    sessionShipments?.results || uploadResponse?.results || [];
+  const validResults = results.filter((row) => row.status === 'valid');
+  // Track dropdown selections for each shipment
+  const [selectedService, setSelectedService] = useState<
+    Record<number, string>
+  >({});
+  const [selectedOption, setSelectedOption] = useState<Record<number, string>>(
+    {},
+  );
+
+  // Pricing summary
+  const total = validResults.length;
+  const priority = validResults.filter(
+    (row: any) =>
+      (selectedOption[row.shipment_id] || 'priority') === 'priority',
+  ).length;
+  const ground = total - priority;
   const pricing = {
-    base: 420,
-    processing: 40,
-    surcharges: 15,
-    total: 475,
+    base: total * 6,
+    processing: total * 0.5,
+    surcharges: total * 0.2,
+    total: total * 6.7,
   };
-  const validatedShipments = [
-    {
-      recipient: 'Johnathan Miller',
-      order: '#88321',
-      service: 'PRIORITY',
-      destination: 'New York, NY',
-      cost: 12.45,
-    },
-    {
-      recipient: 'Sarah Jenkins',
-      order: '#88322',
-      service: 'GROUND',
-      destination: 'Austin, TX',
-      cost: 8.2,
-    },
-    {
-      recipient: 'Logistics Corp',
-      order: '#88323',
-      service: 'GROUND',
-      destination: 'Seattle, WA',
-      cost: 15.9,
-    },
-  ];
 
   const handleSubmit = () => {
     setSubmitting(true);
@@ -52,7 +71,6 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
       setSubmitting(false);
       setConfirm(false);
       navigate('/bulkshipments/bulkwizard/success');
-      // Here you would trigger label download, etc.
     }, 1800);
   };
 
@@ -85,7 +103,7 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
             </h2>
             <div className="text-gray-500 mb-6">
               Review {total} validated shipments for Batch{' '}
-              <span className="font-semibold">#{batchId}</span>.
+              <span className="font-semibold">#{sessionId}</span>.
             </div>
 
             {/* Batch Summary */}
@@ -116,7 +134,7 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
               </div>
             </div>
 
-            {/* Validated Shipments */}
+            {/* Validated Shipments - Step 4 Table */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
                 <div className="font-semibold">Validated Shipments</div>
@@ -129,13 +147,13 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-3 py-2 text-left font-semibold">
-                        Recipient
+                        Ship To Address
                       </th>
                       <th className="px-3 py-2 text-left font-semibold">
                         Service
                       </th>
                       <th className="px-3 py-2 text-left font-semibold">
-                        Destination
+                        Option
                       </th>
                       <th className="px-3 py-2 text-left font-semibold">
                         Cost
@@ -143,27 +161,67 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {validatedShipments.map((row, i) => (
-                      <tr key={i} className="border-t">
-                        <td className="px-3 py-2 font-medium">
-                          {row.recipient}
-                          <div className="text-xs text-gray-400 font-normal">
-                            Order {row.order}
-                          </div>
-                        </td>
-                        <td className="px-3 py-2">
-                          <span
-                            className={`text-xs font-bold px-2 py-1 rounded ${row.service === 'PRIORITY' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}`}
-                          >
-                            {row.service}
-                          </span>
-                        </td>
-                        <td className="px-3 py-2">{row.destination}</td>
-                        <td className="px-3 py-2 font-semibold">
-                          ${row.cost.toFixed(2)}
-                        </td>
-                      </tr>
-                    ))}
+                    {validResults.map((row: any) => {
+                      const shipmentId = row.shipment_id;
+                      const selectedServiceVal =
+                        selectedService[shipmentId] ||
+                        shippingServices[0].value;
+                      const selectedOptionVal =
+                        selectedOption[shipmentId] || shippingOptions[0].value;
+                      const cost = simulateCost(
+                        selectedServiceVal,
+                        selectedOptionVal,
+                      );
+                      return (
+                        <tr key={shipmentId} className="border-t">
+                          <td className="px-3 py-2 font-medium">
+                            {row.ship_to_address || '-'}
+                            <div className="text-xs text-gray-400 font-normal">
+                              Order {row.order_number || '-'}
+                            </div>
+                          </td>
+                          <td className="px-3 py-2">
+                            <select
+                              value={selectedServiceVal}
+                              onChange={(e) =>
+                                setSelectedService((prev) => ({
+                                  ...prev,
+                                  [shipmentId]: e.target.value,
+                                }))
+                              }
+                              className="border rounded px-2 py-1 text-sm"
+                            >
+                              {shippingServices.map((opt) => (
+                                <option key={opt.value} value={opt.value}>
+                                  {opt.label}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td className="px-3 py-2">
+                            <select
+                              value={selectedOptionVal}
+                              onChange={(e) =>
+                                setSelectedOption((prev) => ({
+                                  ...prev,
+                                  [shipmentId]: e.target.value,
+                                }))
+                              }
+                              className="border rounded px-2 py-1 text-sm"
+                            >
+                              {shippingOptions.map((opt) => (
+                                <option key={opt.value} value={opt.value}>
+                                  {opt.label}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td className="px-3 py-2 font-semibold">
+                            ${cost.toFixed(2)}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
                 <div className="text-center py-2 border-t text-blue-600 text-sm cursor-pointer hover:underline">
@@ -172,9 +230,9 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
               </div>
             </div>
 
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2 mt-4 justify-end">
               <Button variant="outline" onClick={wizard.prevStep}>
-                Back to Validation
+                Back
               </Button>
               <Button
                 className="bg-blue-600 text-white font-semibold"

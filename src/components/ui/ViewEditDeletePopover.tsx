@@ -27,6 +27,7 @@ interface ViewEditDeletePopoverProps {
   styles?: PopoverStyles;
   onDelete: (row: UploadResult & { upload_session_id: string }) => void;
   disabled?: boolean;
+  hideEdit?: boolean;
 }
 
 const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
@@ -34,6 +35,7 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
   styles,
   onDelete,
   disabled = false,
+  hideEdit = false,
 }) => {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -72,16 +74,18 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
             'mt-2 max-h-37! w-full max-w-53! rounded-md border border-gray-200 bg-white px-3 py-2 text-left text-sm shadow-popover transition duration-200 ease-in-out',
           )}
         >
-          <Button
-            onClick={() => setIsEditOpen(true)}
-            className={clsx(
-              styles?.buttonStyles,
-              'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-light-grey',
-            )}
-            variant="none"
-          >
-            Edit
-          </Button>
+          {!hideEdit && (
+            <Button
+              onClick={() => setIsEditOpen(true)}
+              className={clsx(
+                styles?.buttonStyles,
+                'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-light-grey',
+              )}
+              variant="none"
+            >
+              Edit
+            </Button>
+          )}
           <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
             <AlertDialogTrigger asChild>
               <Button
@@ -113,17 +117,19 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
           </AlertDialog>
         </PopoverPanel>
       </Popover>
-      <EditShipmentModal
-        open={isEditOpen}
-        onClose={() => setIsEditOpen(false)}
-        shipment={data}
-        upload_session_id={data.upload_session_id}
-        refetch={
-          typeof (window as any).refetch === 'function'
-            ? (window as any).refetch
-            : undefined
-        }
-      />
+      {!hideEdit && (
+        <EditShipmentModal
+          open={isEditOpen}
+          onClose={() => setIsEditOpen(false)}
+          shipment={data}
+          upload_session_id={data.upload_session_id}
+          refetch={
+            typeof (window as any).refetch === 'function'
+              ? (window as any).refetch
+              : undefined
+          }
+        />
+      )}
     </>
   );
 };
