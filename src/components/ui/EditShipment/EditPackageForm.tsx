@@ -53,11 +53,31 @@ const EditPackageForm: React.FC<EditPackageFormProps> = ({
   useEffect(() => {
     if (data) {
       form.reset({
-        length_in: Number(data.length_in ?? 0),
-        width_in: Number(data.width_in ?? 0),
-        height_in: Number(data.height_in ?? 0),
-        weight_lbs: Number(data.weight_lbs ?? 0),
-        weight_oz: Number(data.weight_oz ?? 0),
+        length_in: Number(
+          typeof data === 'object' && data !== null && 'length_in' in data
+            ? (data as any).length_in
+            : 0,
+        ),
+        width_in: Number(
+          typeof data === 'object' && data !== null && 'width_in' in data
+            ? (data as any).width_in
+            : 0,
+        ),
+        height_in: Number(
+          typeof data === 'object' && data !== null && 'height_in' in data
+            ? (data as any).height_in
+            : 0,
+        ),
+        weight_lbs: Number(
+          typeof data === 'object' && data !== null && 'weight_lbs' in data
+            ? (data as any).weight_lbs
+            : 0,
+        ),
+        weight_oz: Number(
+          typeof data === 'object' && data !== null && 'weight_oz' in data
+            ? (data as any).weight_oz
+            : 0,
+        ),
       });
     }
   }, [data, form]);

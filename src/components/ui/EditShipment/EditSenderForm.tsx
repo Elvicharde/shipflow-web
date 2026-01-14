@@ -58,13 +58,34 @@ const EditSenderForm: React.FC<EditSenderFormProps> = ({
   useEffect(() => {
     if (data) {
       form.reset({
-        name: data.name ?? '',
-        address_line1: data.address_line1 ?? '',
-        address_line2: data.address_line2 ?? '',
-        city: data.city ?? '',
-        state: data.state ?? '',
-        postal_code: data.postal_code ?? '',
-        phone: data.phone ?? '',
+        name:
+          typeof data === 'object' && data !== null && 'name' in data
+            ? (data as any).name
+            : '',
+        address_line1:
+          typeof data === 'object' && data !== null && 'address_line1' in data
+            ? (data as any).address_line1
+            : '',
+        address_line2:
+          typeof data === 'object' && data !== null && 'address_line2' in data
+            ? (data as any).address_line2
+            : '',
+        city:
+          typeof data === 'object' && data !== null && 'city' in data
+            ? (data as any).city
+            : '',
+        state:
+          typeof data === 'object' && data !== null && 'state' in data
+            ? (data as any).state
+            : '',
+        postal_code:
+          typeof data === 'object' && data !== null && 'postal_code' in data
+            ? (data as any).postal_code
+            : '',
+        phone:
+          typeof data === 'object' && data !== null && 'phone' in data
+            ? (data as any).phone
+            : '',
       });
     }
   }, [data, form]);

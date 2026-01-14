@@ -18,6 +18,7 @@ export const bulkUpdateShippingServiceAndOption = async ({
 // Generic fetch for a single shipment by session and shipment id
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { get, patch, post, del } from './http';
+import { useAuthStore } from '../authStore';
 import { queryClient } from './queryClient';
 import type { Shipment, ShipmentUpdateInput } from '../../types';
 
@@ -39,17 +40,13 @@ export function useGetShipmentBySession<T = Shipment>({
   fields?: 'ship_from' | 'ship_to' | 'package';
   params?: Record<string, any>;
 }) {
-  // Build query string
-  const searchParams = new URLSearchParams({
-    shipment_id: String(shipmentId),
-    ...(fields ? { fields } : {}),
-    ...params,
-  }).toString();
-  const url = `/shipments/${sessionId}/by-session/?${searchParams}`;
-  return useQuery<T>({
-    queryKey: ['shipment-by-session', sessionId, shipmentId, fields, params],
-    queryFn: () => get<T>(url),
-    enabled: !!sessionId && !!shipmentId,
+  const userId = useAuthStore((s) => s.userId);
+  return useQuery({
+    queryKey: ['shipment', sessionId, shipmentId, fields, params, userId],
+    queryFn: async () => {
+      const url = `/shipments/${shipmentId}/?session_id=${sessionId}${fields ? `&fields=${fields}` : ''}${userId ? `&user_id=${userId}` : ''}`;
+      return get(url);
+    },
   });
 }
 

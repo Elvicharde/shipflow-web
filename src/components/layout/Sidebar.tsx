@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import Button from '@/components/ui/Button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/app/authStore';
+import ArrowLeftIcon from '/icons/arrow-left.svg';
+import ArrowRightIcon from '/icons/arrow-right.svg';
 
 const navItems = [
   {
@@ -34,6 +37,8 @@ export const Sidebar: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const location = useLocation();
+  const logout = useAuthStore((s) => s.logout);
+  const navigate = useNavigate();
 
   const handleToggleSidebar = () => setSidebarOpen((open) => !open);
   const handleCollapse = () => setSidebarCollapsed((collapsed) => !collapsed);
@@ -46,7 +51,7 @@ export const Sidebar: React.FC = () => {
     >
       <div>
         <div
-          className={`flex items-center gap-2 ${sidebarCollapsed ? 'px-3' : 'px-6'} py-6`}
+          className={`flex items-center gap-2 ${sidebarCollapsed ? 'px-3' : 'px-6'} py-6 relative`}
         >
           <img
             src={
@@ -62,14 +67,18 @@ export const Sidebar: React.FC = () => {
               ShipmentCentral
             </span>
           )}
+          {/* Sidebar toggle button - move to top right */}
           <Button
             variant="ghost"
-            size="icon"
-            onClick={handleToggleSidebar}
-            aria-label="Toggle sidebar"
-            className="ml-auto lg:hidden"
+            onClick={handleCollapse}
+            aria-label="Collapse sidebar"
+            className="absolute top-0 right-0 mt-2 mr-2"
           >
-            <img src="/icons/arrow-left.svg" alt="toggle" className="w-5 h-5" />
+            <img
+              src={sidebarCollapsed ? ArrowRightIcon : ArrowLeftIcon}
+              alt={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              className="w-5 h-5"
+            />
           </Button>
         </div>
         <nav className="mt-4 space-y-1 px-2">
@@ -106,20 +115,15 @@ export const Sidebar: React.FC = () => {
           </div>
         )}
         <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleCollapse}
-          aria-label="Collapse sidebar"
+          variant="danger"
+          onClick={() => {
+            logout();
+            navigate('/login');
+          }}
+          aria-label="Logout"
+          className="ml-2 bg-red-300 text whit5e max-h-9"
         >
-          <img
-            src={
-              sidebarCollapsed
-                ? '/icons/arrow-right.svg'
-                : '/icons/arrow-left.svg'
-            }
-            alt="collapse"
-            className="w-5 h-5"
-          />
+          Logout
         </Button>
       </div>
     </aside>
