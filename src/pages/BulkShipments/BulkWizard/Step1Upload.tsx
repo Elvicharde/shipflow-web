@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../../../components/ui/Button';
 import LoaderComponent from '../../../components/ui/LoaderComponent';
-import { CheckCircleIcon } from '@heroicons/react/24/solid';
+import { CheckCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/solid';
 import useUploadShipments from '@/app/api/upload-api';
 import { useAppStore } from '@/app/store';
 import { WizardHook } from '@/hooks/useWizard';
@@ -205,16 +205,22 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
                     </div>
                   )}
                   {uploading && (
-                    <div className="flex items-center gap-2 mt-4">
-                      <LoaderComponent />
-                      <div className="w-40 h-2 bg-gray-200 rounded">
-                        <div
-                          className="h-2 bg-blue-500 rounded transition-all"
-                          style={{ width: `${progress}%` }}
-                        />
+                    // <div className="flex items-center gap-2 mt-4">
+                    //   <LoaderComponent />
+                    //   <div className="w-40 h-2 bg-gray-200 rounded">
+                    //     <div
+                    //       className="h-2 bg-blue-500 rounded transition-all"
+                    //       style={{ width: `${progress}%` }}
+                    //     />
+                    //   </div>
+                    //   <span className="text-xs">{progress}%</span>
+                    // </div>
+                    <span>
+                      <div className="flex items-center gap-2 mt-4 text-green-600 text-sm">
+                        <ArrowUpCircleIcon className="w-5 h-5 text-green-500" />
+                        Uploading ...
                       </div>
-                      <span className="text-xs">{progress}%</span>
-                    </div>
+                    </span>
                   )}
                   {completed && (
                     <div className="flex items-center gap-2 mt-4 text-green-600 text-sm">
