@@ -30,13 +30,13 @@ export const LoginPage: React.FC = () => {
 
   return (
     <form onSubmit={handleLogin} className="max-w-sm mx-auto mt-10 space-y-4">
-      <h2 className="text-xl font-bold">Login</h2>
+      <h2 className="text-xl font-bold text-white">Login</h2>
       <input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="w-full border rounded px-2 py-1"
+        className="w-full border border-indigo-500/40 bg-slate-900/40 text-white placeholder:text-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required
       />
       <input
@@ -44,13 +44,13 @@ export const LoginPage: React.FC = () => {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="w-full border rounded px-2 py-1"
+        className="w-full border border-indigo-500/40 bg-slate-900/40 text-white placeholder:text-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required
       />
-      {error && <div className="text-red-500 text-sm">{error}</div>}
+      {error && <div className="text-red-400 text-sm">{error}</div>}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded flex items-center justify-center"
+        className="w-full bg-linear-to-r from-indigo-500 to-purple-500 text-white py-2 rounded flex items-center justify-center font-bold shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 transition-all duration-300"
         disabled={loading}
       >
         {loading && (
@@ -76,9 +76,12 @@ export const LoginPage: React.FC = () => {
         )}
         Login
       </button>
-      <div className="text-center text-sm mt-2">
+      <div className="text-center text-sm mt-2 text-gray-300">
         Don't have an account?{' '}
-        <Link to="/register" className="text-blue-600 underline">
+        <Link
+          to="/register"
+          className="text-indigo-400 underline hover:text-purple-400 transition-colors"
+        >
           Register
         </Link>
       </div>
@@ -117,13 +120,13 @@ export const RegisterPage: React.FC = () => {
       onSubmit={handleRegister}
       className="max-w-sm mx-auto mt-10 space-y-4"
     >
-      <h2 className="text-xl font-bold">Register</h2>
+      <h2 className="text-xl font-bold text-white">Register</h2>
       <input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="w-full border rounded px-2 py-1"
+        className="w-full border border-indigo-500/40 bg-slate-900/40 text-white placeholder:text-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required
       />
       <input
@@ -131,13 +134,13 @@ export const RegisterPage: React.FC = () => {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="w-full border rounded px-2 py-1"
+        className="w-full border border-indigo-500/40 bg-slate-900/40 text-white placeholder:text-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required
       />
-      {error && <div className="text-red-500 text-sm">{error}</div>}
+      {error && <div className="text-red-400 text-sm">{error}</div>}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded flex items-center justify-center"
+        className="w-full bg-linear-to-r from-indigo-500 to-purple-500 text-white py-2 rounded flex items-center justify-center font-bold shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 transition-all duration-300"
         disabled={loading}
       >
         {loading && (
@@ -163,9 +166,12 @@ export const RegisterPage: React.FC = () => {
         )}
         Register
       </button>
-      <div className="text-center text-sm mt-2">
+      <div className="text-center text-sm mt-2 text-gray-300">
         Already have an account?{' '}
-        <Link to="/login" className="text-blue-600 underline">
+        <Link
+          to="/login"
+          className="text-indigo-400 underline hover:text-purple-400 transition-colors"
+        >
           Login
         </Link>
       </div>
