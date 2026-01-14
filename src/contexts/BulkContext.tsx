@@ -1,24 +1,28 @@
 import React, { createContext, useContext, useState } from 'react';
-import { BulkShipment } from '../types/shipment';
+import { Shipment } from '../types/shipment';
 
 interface BulkContextType {
-  shipments: BulkShipment[];
-  addShipment: (shipment: BulkShipment) => void;
+  shipments: Shipment[];
+  addShipment: (shipment: Shipment) => void;
   removeShipment: (id: string) => void;
   clearShipments: () => void;
 }
 
 const BulkContext = createContext<BulkContextType | undefined>(undefined);
 
-export const BulkProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [shipments, setShipments] = useState<BulkShipment[]>([]);
+export const BulkProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [shipments, setShipments] = useState<Shipment[]>([]);
 
-  const addShipment = (shipment: BulkShipment) => {
+  const addShipment = (shipment: Shipment) => {
     setShipments((prev) => [...prev, shipment]);
   };
 
   const removeShipment = (id: string) => {
-    setShipments((prev) => prev.filter((shipment) => shipment.id !== id));
+    setShipments((prev) =>
+      prev.filter((shipment) => String(shipment.id) !== String(id)),
+    );
   };
 
   const clearShipments = () => {
@@ -26,7 +30,9 @@ export const BulkProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <BulkContext.Provider value={{ shipments, addShipment, removeShipment, clearShipments }}>
+    <BulkContext.Provider
+      value={{ shipments, addShipment, removeShipment, clearShipments }}
+    >
       {children}
     </BulkContext.Provider>
   );

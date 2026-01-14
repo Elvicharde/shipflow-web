@@ -29,7 +29,8 @@ export type ButtonVariant =
   | 'success'
   | 'none'
   | 'confirm'
-  | 'angel';
+  | 'angel'
+  | 'ghost';
 
 const getVariant = (variant: ButtonVariant) => {
   switch (variant) {

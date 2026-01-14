@@ -64,7 +64,6 @@ export const Sidebar: React.FC = () => {
           )}
           <Button
             variant="ghost"
-            size="icon"
             onClick={handleToggleSidebar}
             aria-label="Toggle sidebar"
             className="ml-auto lg:hidden"
@@ -106,8 +105,8 @@ export const Sidebar: React.FC = () => {
           </div>
         )}
         <Button
-          variant="ghost"
-          size="icon"
+          variant="outline"
+          // size prop removed, not supported by Button
           onClick={handleCollapse}
           aria-label="Collapse sidebar"
         >

@@ -42,7 +42,10 @@ const EditOthersForm: React.FC<EditOthersFormProps> = ({
   React.useEffect(() => {
     if (data) {
       form.reset({
-        order_number: data.order_number ?? '',
+        order_number:
+          (typeof data === 'object' && data !== null && 'order_number' in data
+            ? (data as any).order_number
+            : '') ?? '',
       });
     }
   }, [data, form]);

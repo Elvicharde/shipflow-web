@@ -13,17 +13,20 @@ export const fetchShipments = async () => {
   return response.data;
 };
 
-export const createShipment = async (shipmentData) => {
+export const createShipment = async (shipmentData: any) => {
   const response = await apiClient.post('/shipments', shipmentData);
   return response.data;
 };
 
-export const updateShipment = async (shipmentId, shipmentData) => {
-  const response = await apiClient.put(`/shipments/${shipmentId}`, shipmentData);
+export const updateShipment = async (shipmentId: any, shipmentData: any) => {
+  const response = await apiClient.put(
+    `/shipments/${shipmentId}`,
+    shipmentData,
+  );
   return response.data;
 };
 
-export const deleteShipment = async (shipmentId) => {
+export const deleteShipment = async (shipmentId: any) => {
   const response = await apiClient.delete(`/shipments/${shipmentId}`);
   return response.data;
 };
