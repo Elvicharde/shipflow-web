@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import { useAnimate } from "framer-motion";
-import { forwardRef, memo } from "react";
+import clsx from 'clsx';
+import { useAnimate } from 'framer-motion';
+import { forwardRef, memo } from 'react';
 
 interface ButtonOptions {
   /**
@@ -21,36 +21,36 @@ export type ButtonProps = React.DetailedHTMLProps<
   ButtonOptions;
 
 export type ButtonVariant =
-  | "outline"
-  | "solid"
-  | "secondary"
-  | "primary"
-  | "danger"
-  | "success"
-  | "none"
-  | "confirm"
-  | "angel";
+  | 'outline'
+  | 'solid'
+  | 'secondary'
+  | 'primary'
+  | 'danger'
+  | 'success'
+  | 'none'
+  | 'confirm'
+  | 'angel';
 
 const getVariant = (variant: ButtonVariant) => {
   switch (variant) {
-    case "outline":
-      return "text-accent bg-none border border-table-border";
-    case "secondary":
-      return "text-deep-blue bg-none";
-    case "primary":
-      return "text-primary-blue disabled:border-[#F0F2F5] disabled:text-placeholder border border-primary-blue bg-none";
-    case "none":
-      return "text-base-grey bg-none !font-normal";
-    case "danger":
-      return "text-white bg-danger";
-    case "success":
-      return "text-white bg-success";
-    case "confirm":
-      return "text-white bg-[#1ACD92]";
-    case "angel":
-      return "bg-white text-primary-blue hover:bg-primary-white/75";
+    case 'outline':
+      return 'text-accent bg-none border border-table-border';
+    case 'secondary':
+      return 'text-deep-blue bg-none';
+    case 'primary':
+      return 'text-primary-blue disabled:border-[#F0F2F5] disabled:text-placeholder border border-primary-blue bg-none';
+    case 'none':
+      return 'text-base-grey bg-none !font-normal';
+    case 'danger':
+      return 'text-white bg-danger';
+    case 'success':
+      return 'text-white bg-success';
+    case 'confirm':
+      return 'text-white bg-[#1ACD92]';
+    case 'angel':
+      return 'bg-white text-primary-blue hover:bg-primary-white/75';
     default:
-      return "bg-primary-blue text-white";
+      return 'bg-primary-blue text-white';
   }
 };
 
@@ -58,7 +58,7 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
   const [scope, animate] = useAnimate();
 
   const {
-    variant = "solid",
+    variant = 'solid',
     className,
     onClick,
     children,
@@ -69,15 +69,15 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
   const onButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     onClick && onClick(e);
     animate([
-      ["button", { scale: 0.8 }, { duration: 0.1, at: "<" }],
-      ["button", { scale: 1 }, { duration: 0.1 }],
+      ['button', { scale: 0.8 }, { duration: 0.1, at: '<' }],
+      ['button', { scale: 1 }, { duration: 0.1 }],
     ]);
   };
 
   const merged = clsx(
     "px-2 py-3 h-fit rounded-[8px] disabled:opacity-50' text-sm font-bold justify-center w-full items-center focus:outline-none outline-none focus:ring-0 inline-flex gap-2",
     getVariant(variant),
-    className
+    className,
   );
 
   return (
@@ -88,7 +88,7 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
         {...rest}
         onClick={(e) => onButtonClick(e)}
       >
-         {loading ? (
+        {loading ? (
           <svg
             aria-hidden="true"
             role="status"
@@ -113,5 +113,5 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
   );
 });
 
-Button.displayName = "Button";
+Button.displayName = 'Button';
 export default memo(Button);

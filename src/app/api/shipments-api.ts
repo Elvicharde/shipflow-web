@@ -1,3 +1,20 @@
+// Bulk update shipping service and option for multiple shipments
+export const bulkUpdateShippingServiceAndOption = async ({
+  upload_session_id,
+  shipments,
+}: {
+  upload_session_id: string;
+  shipments: Array<{
+    shipment_id: number;
+    shipping_service: string;
+    shipping_option: string;
+  }>;
+}) => {
+  return post(`/shipments/bulk-update-service-option/`, {
+    upload_session_id,
+    shipments,
+  });
+};
 // Generic fetch for a single shipment by session and shipment id
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { get, patch, post, del } from './http';

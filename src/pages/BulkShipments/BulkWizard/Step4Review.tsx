@@ -7,6 +7,8 @@ import ConfirmationComponent from '../../../components/ui/ConfirmationComponent'
 import { useAppStore } from '@/app/store';
 import { useGetUploadedShipments } from '@/app/api/upload-api';
 import { UploadResponse, UploadResult } from '@/types';
+import { bulkUpdateShippingServiceAndOption } from '@/app/api/shipments-api';
+import { toast } from 'sonner';
 
 const shippingServices = [
   { value: 'UPS', label: 'UPS' },
@@ -65,13 +67,32 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
     total: total * 6.7,
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setSubmitting(true);
-    setTimeout(() => {
+    try {
+      // Prepare payload for bulk update
+      const payload = {
+        upload_session_id: sessionId,
+        shipments: validResults.map((row: any) => ({
+          shipment_id: row.shipment_id,
+          shipping_service:
+            selectedService[row.shipment_id] || shippingServices[0].value,
+          shipping_option:
+            selectedOption[row.shipment_id] || shippingOptions[0].value,
+        })),
+      };
+      await bulkUpdateShippingServiceAndOption(payload);
+      toast.success('Shipping selections saved!');
       setSubmitting(false);
       setConfirm(false);
       navigate('/bulkshipments/bulkwizard/success');
-    }, 1800);
+    } catch (e) {
+      setSubmitting(false);
+      setConfirm(false);
+      toast.error('Failed to save shipping selections. Please try again.');
+      // eslint-disable-next-line no-console
+      console.error('Bulk update failed', e);
+    }
   };
 
   return (
@@ -231,13 +252,14 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
             </div>
 
             <div className="flex gap-2 mt-4 justify-end">
-              <Button variant="outline" onClick={wizard.prevStep}>
+              <Button
+                variant="outline"
+                className="h-9 px-4"
+                onClick={wizard.prevStep}
+              >
                 Back
               </Button>
-              <Button
-                className="bg-blue-600 text-white font-semibold"
-                onClick={() => setConfirm(true)}
-              >
+              <Button className="h-9 px-4" onClick={() => setConfirm(true)}>
                 Submit {total} Shipments
               </Button>
             </div>
@@ -272,7 +294,7 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
               submission. Estimated delivery dates are guaranteed.
             </div>
             <Button
-              className="w-full bg-blue-600 text-white font-semibold mb-2"
+              className="w-full h-9 px-4 mb-2"
               onClick={() => setConfirm(true)}
             >
               Submit {total} Shipments

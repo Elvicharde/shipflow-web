@@ -4,7 +4,7 @@ import { useGetUploadedShipments } from '@/app/api/upload-api';
 import { DataTable } from '@/components/ui/DataTable';
 import ViewEditDeletePopover from '@/components/ui/ViewEditDeletePopover';
 import { useDeleteShipment } from '@/app/api/shipments-api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { WizardHook } from '@/hooks/useWizard';
 import Button from '@/components/ui/Button';
 
@@ -24,7 +24,11 @@ const Step3ShippingInformation: React.FC<Step3ShippingInformationProps> = ({
   );
   const results: UploadResult[] =
     sessionShipments?.results || uploadResponse?.results || [];
-  const validResults = results.filter((row) => row.status === 'valid');
+  const [tableResults, setTableResults] = useState<UploadResult[]>([]);
+  // Sync tableResults with validResults from API
+  useEffect(() => {
+    setTableResults(results.filter((row) => row.status === 'valid'));
+  }, [results]);
 
   // Dropdown state for each shipment
   const [selectedService, setSelectedService] = useState<
@@ -48,7 +52,13 @@ const Step3ShippingInformation: React.FC<Step3ShippingInformationProps> = ({
   const deleteShipmentMutation = useDeleteShipment();
   const handleDelete = (row: UploadResult) => {
     if (!row.shipment_id) return;
-    deleteShipmentMutation.mutate(row.shipment_id);
+    deleteShipmentMutation.mutate(row.shipment_id, {
+      onSuccess: () => {
+        setTableResults((prev) =>
+          prev.filter((r) => r.shipment_id !== row.shipment_id),
+        );
+      },
+    });
   };
 
   const columns = [
@@ -192,21 +202,20 @@ const Step3ShippingInformation: React.FC<Step3ShippingInformationProps> = ({
   return (
     <div className="max-w-full mx-auto">
       <div className="overflow-x-auto">
-        <DataTable columns={columns} data={validResults} />
+        <DataTable columns={columns} data={tableResults} />
       </div>
       <div className="flex justify-end gap-4 mt-8">
         <Button
-          variant="primary"
-          className="min-w-25 px-4 py-2"
+          variant="outline"
+          className="h-9 px-4"
           onClick={() => wizard.prevStep()}
         >
           Back
         </Button>
         <Button
-          variant="primary"
-          className="min-w-25 px-4 py-2"
+          className="h-9 px-4"
           onClick={() => wizard.nextStep()}
-          disabled={validResults.length === 0}
+          disabled={tableResults.length === 0}
         >
           Review
         </Button>
