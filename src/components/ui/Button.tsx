@@ -39,7 +39,7 @@ const getVariant = (variant: ButtonVariant) => {
     case 'secondary':
       return 'text-deep-blue bg-none';
     case 'primary':
-      return 'text-primary-blue disabled:border-[#F0F2F5] disabled:text-placeholder border border-primary-blue bg-none';
+      return 'text-primary-blue disabled:border-[#F0F2F5] disabled:text-placeholder border border-primary-blue';
     case 'none':
       return 'text-base-grey bg-none !font-normal';
     case 'danger':
@@ -47,7 +47,7 @@ const getVariant = (variant: ButtonVariant) => {
     case 'success':
       return 'text-white bg-success';
     case 'confirm':
-      return 'text-white bg-[#1ACD92]';
+      return 'text-white bg-[#175CFF]';
     case 'angel':
       return 'bg-white text-primary-blue hover:bg-primary-white/75';
     default:
@@ -76,7 +76,7 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
   };
 
   const merged = clsx(
-    "px-2 py-3 h-fit rounded-[8px] disabled:opacity-50' text-sm font-bold justify-center w-full items-center focus:outline-none outline-none focus:ring-0 inline-flex gap-2",
+    "px-2 py-3 h-fit rounded-[8px] disabled:opacity-50' text-sm font-bold justify-center w-full items-center focus:outline-none outline-none focus:ring-0 inline-flex gap-2 cursor-pointer transition-all duration-150 ease-in-out",
     getVariant(variant),
     className,
   );

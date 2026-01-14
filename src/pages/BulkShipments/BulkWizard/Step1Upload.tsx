@@ -175,8 +175,9 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
                   </div>
                   <Button
                     type="button"
+                    variant="primary"
                     onClick={handleBrowseClick}
-                    className="w-10 mb-2 px-6 py-2 bg-blue-600 text-white rounded font-semibold shadow-none"
+                    className="w-10 h-9! mb-2 px-6 py-2 border border-[gray]/50 border-dashed rounded font-semibold shadow-none"
                     disabled={uploading}
                   >
                     Select File
@@ -205,16 +206,6 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
                     </div>
                   )}
                   {uploading && (
-                    // <div className="flex items-center gap-2 mt-4">
-                    //   <LoaderComponent />
-                    //   <div className="w-40 h-2 bg-gray-200 rounded">
-                    //     <div
-                    //       className="h-2 bg-blue-500 rounded transition-all"
-                    //       style={{ width: `${progress}%` }}
-                    //     />
-                    //   </div>
-                    //   <span className="text-xs">{progress}%</span>
-                    // </div>
                     <span>
                       <div className="flex items-center gap-2 mt-4 text-green-600 text-sm">
                         <ArrowUpCircleIcon className="w-5 h-5 text-green-500" />
@@ -244,11 +235,11 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
               Download CSV Template
             </a>
           </div>
-          <div className="flex gap-4 mt-2 sm:mt-0">
+          <div className="flex gap-3 mt-2 sm:mt-0">
             <Button
               type="button"
               variant="outline"
-              className="cursor-pointer px-6 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 h-9"
+              className="cursor-pointer px-6 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 h-9!"
               onClick={handleCancel}
               disabled={uploading}
             >
@@ -256,14 +247,14 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
             </Button>
             <Button
               type="submit"
-              className="cursor-pointer h-9 px-6 bg-blue-600 text-white rounded font-semibold shadow-none disabled:opacity-60"
+              className="cursor-pointer h-9! px-6 bg-blue-600 text-white rounded font-semibold shadow-none disabled:opacity-60"
               disabled={!file || uploading || completed}
             >
               Upload File
             </Button>
             <Button
               type="button"
-              className="cursor-pointer h-9 px-6 bg-green-600 text-white rounded font-semibold shadow-none disabled:opacity-60"
+              className="cursor-pointer h-9! px-6 bg-green-600 text-white rounded font-semibold shadow-none disabled:opacity-60"
               onClick={wizard.nextStep}
               disabled={!completed}
             >

@@ -45,11 +45,8 @@ function Routes() {
             {
               path: '/dashboard',
               element: <Dashboard />,
-              children: [
-                { path: '/dashboard/upload', element: <WizardLayout /> },
-              ],
             },
-
+            { path: '/dashboard/upload', element: <WizardLayout /> },
             { path: '/shipments', element: <Shipments /> },
             { path: '/analytics', element: <Analytics /> },
             {

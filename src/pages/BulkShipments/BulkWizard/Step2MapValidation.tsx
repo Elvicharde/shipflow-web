@@ -8,7 +8,6 @@ import { DataTable } from '@/components/ui/DataTable';
 import { getBulkWizardColumns } from './bulkWizardColumns';
 import { useDeleteShipment } from '@/app/api/shipments-api';
 
-
 interface Step2MapValidationProps {
   wizard: WizardHook;
 }
@@ -78,41 +77,44 @@ const Step2MapValidation: React.FC<Step2MapValidationProps> = ({ wizard }) => {
         <div className="bg-[#F9FAFB] rounded-lg p-4 flex flex-col items-center border border-green-200">
           <div className="text-2xl font-bold text-green-600">{valid}</div>
           <div className="text-xs text-gray-500 flex items-center gap-1">
-            Valid <span className="text-green-500">&#10003;</span>
+            Valid Shipments <span className="text-green-500">&#10003;</span>
           </div>
         </div>
         <div className="bg-[#F9FAFB] rounded-lg p-4 flex flex-col items-center border border-red-200">
           <div className="text-2xl font-bold text-red-600">{invalid}</div>
           <div className="text-xs text-gray-500 flex items-center gap-1">
-            Invalid <span className="text-red-500">&#10007;</span>
+            Invalid Shipments <span className="text-red-500">&#10007;</span>
           </div>
         </div>
       </div>
       {/* Table Batch Info */}
-      <div className="flex items-center gap-2 mb-2">
-        <span className="font-semibold text-base">Shipment Data</span>
-        <span className="bg-gray-100 text-xs px-2 py-1 rounded ml-2">
-          CSV UPLOAD: {filename || uploadResponse?.upload_session_id || 'Batch'}
-        </span>
-        <div className="ml-4 flex gap-2">
+      <div className="flex items-center gap-2 mb-2 justify-between">
+        <div>
+          <span className="font-semibold text-base">Shipment Data</span>
+          <span className="bg-gray-100 text-xs px-2 py-1 rounded ml-2">
+            CSV UPLOAD:{' '}
+            {filename || uploadResponse?.upload_session_id || 'Batch'}
+          </span>
+        </div>
+        <div className="ml-4 flex gap-2 ">
           <Button
-            variant={filter === 'all' ? 'primary' : 'outline'}
+            variant="primary"
             onClick={() => setFilter('all')}
-            className="w-9"
+            className="w-16! h-9!"
           >
             All
           </Button>
           <Button
-            variant={filter === 'valid' ? 'primary' : 'outline'}
+            variant="primary"
             onClick={() => setFilter('valid')}
-            className="w-9"
+            className="w-16! h-9!"
           >
             Valid
           </Button>
           <Button
-            variant={filter === 'invalid' ? 'primary' : 'outline'}
+            variant="primary"
             onClick={() => setFilter('invalid')}
-            className="w-9"
+            className="w-16! h-9!"
           >
             Invalid
           </Button>
@@ -123,7 +125,7 @@ const Step2MapValidation: React.FC<Step2MapValidationProps> = ({ wizard }) => {
           columns={getBulkWizardColumns(
             (row) => {}, // edit handled in popover
             handleDelete,
-            sessionId || ''
+            sessionId || '',
           )}
           data={filteredResults}
         />
@@ -132,14 +134,15 @@ const Step2MapValidation: React.FC<Step2MapValidationProps> = ({ wizard }) => {
       {/* Action Buttons */}
       <div className="flex justify-end gap-4 mt-8">
         <Button
-          variant="outline"
-          className="w-10"
+          variant="primary"
+          className="h-9! w-20!"
           onClick={() => wizard.prevStep()}
         >
-          Cancel
+          Back
         </Button>
         <Button
-          className="w-10"
+          variant="confirm"
+          className="h-9!"
           onClick={() => wizard.nextStep()}
           disabled={valid === 0}
         >

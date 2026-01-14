@@ -21,7 +21,7 @@ const WizardLayout: React.FC = () => {
   return (
     <div className="max-w-[90%] mx-auto py-8 bg-white px-6 rounded-lg shadow-md">
       {/* Back to Dashboard Button */}
-      <div className="mb-4 flex items-center gap-2">
+      {/* <div className="mb-4 flex items-center gap-2">
         <Link
           to="/dashboard"
           className="flex items-center gap-2 text-primary-blue hover:underline text-sm font-medium"
@@ -43,13 +43,13 @@ const WizardLayout: React.FC = () => {
           </svg>
           Back to Dashboard
         </Link>
-      </div>
+      </div> */}
       {/* Progress Bar & Steps */}
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          <div className="text-xs font-semibold text-blue-700 uppercase tracking-wide">
-            Current Progress
-          </div>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-bold text-gray-700 uppercase tracking-wide">
+            Upload Progress
+          </h3>
           <div className="text-xs text-gray-500 font-medium">
             {Math.round(((currentStep + 1) / steps.length) * 100)}% Complete
           </div>
@@ -70,7 +70,7 @@ const WizardLayout: React.FC = () => {
                 </div>
               </div>
               {idx < steps.length - 1 && (
-                <div className="flex-1 h-1 bg-gray-200 rounded-full">
+                <div className="flex-1 h-1 bg-gray-200 rounded-full -mt-4">
                   <div
                     className={`h-1 rounded-full ${idx < currentStep ? 'bg-blue-600' : 'bg-gray-200'}`}
                     style={{ width: '100%' }}
@@ -80,10 +80,10 @@ const WizardLayout: React.FC = () => {
             </React.Fragment>
           ))}
         </div>
-        <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+        <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden mt-4">
           <div
             className="h-2 bg-blue-600 transition-all duration-300"
-            style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+            style={{ width: `${(((currentStep) / steps.length) * 100) + (currentStep > 0 ? 8 : 0)}%` }}
           />
         </div>
       </div>
