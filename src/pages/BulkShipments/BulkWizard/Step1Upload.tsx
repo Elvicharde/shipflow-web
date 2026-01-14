@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../../../components/ui/Button';
@@ -18,6 +19,7 @@ interface Step1UploadProps {
 }
 
 const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
+  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragActive, setDragActive] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -77,6 +79,7 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
     wizard.setMapping({});
     wizard.setValidation({});
     wizard.setPricing({});
+    navigate(-1);
   };
 
   // File input change
@@ -112,8 +115,7 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
     });
   };
 
-  // Remove isLoading usage if not available
-  const uploading = false;
+  const uploading = uploadMutation.isLoading;
 
   return (
     <div className="p-8 max-w-2xl mx-auto">
@@ -224,31 +226,22 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
             )}
           />
         </div>
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#F9FAFB] border border-[#E4E7EC] rounded-lg px-4 py-3 mb-4">
+        <div className="flex flex-col items-center justify-between gap-4 bg-[#F9FAFB] border border-[#E4E7EC] rounded-lg px-4 py-3 mb-4">
           <div className="flex items-center gap-2 text-sm">
-            <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
-              <rect width="20" height="20" rx="4" fill="#E3F6FC" />
-              <path
-                d="M7 10h6M10 7v6"
-                stroke="#0EA5E9"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-            <span>Don't have a file yet?</span>
+            <span className="text-xs">Don't have a file yet?</span>
             <a
-              href="/sample-template.csv"
+              href="/template/template.csv"
               download
-              className="text-blue-600 hover:underline font-medium ml-1"
+              className="text-blue-600 hover:underline font-medium ml-1 text-xs"
             >
               Download CSV Template
             </a>
           </div>
-          <div className="flex gap-2 mt-2 sm:mt-0">
+          <div className="flex gap-4 mt-2 sm:mt-0">
             <Button
               type="button"
               variant="outline"
-              className="px-6 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-100"
+              className="cursor-pointer px-6 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 h-9"
               onClick={handleCancel}
               disabled={uploading}
             >
@@ -256,14 +249,14 @@ const Step1Upload: React.FC<Step1UploadProps> = ({ wizard }) => {
             </Button>
             <Button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded font-semibold shadow-none disabled:opacity-60"
+              className="cursor-pointer h-9 px-6 bg-blue-600 text-white rounded font-semibold shadow-none disabled:opacity-60"
               disabled={!file || uploading || completed}
             >
               Upload File
             </Button>
             <Button
               type="button"
-              className="px-6 py-2 bg-green-600 text-white rounded font-semibold shadow-none disabled:opacity-60"
+              className="cursor-pointer h-9 px-6 bg-green-600 text-white rounded font-semibold shadow-none disabled:opacity-60"
               onClick={wizard.nextStep}
               disabled={!completed}
             >
