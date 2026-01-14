@@ -211,8 +211,8 @@ const Dashboard: React.FC = () => {
                     Filters
                   </Button>
                   <Link to="upload" className="ml-auto">
-                    <Button className="w-10 max-h-10 px-4 py-4 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer">
-                      <PlusIcon className="size-6" />
+                    <Button className="max-h-9 w-40.25! text-sm font-bold cursor-pointer" variant="primary" type="button">
+                      <PlusIcon className="size-5" />
                       Upload CSV
                     </Button>
                   </Link>
