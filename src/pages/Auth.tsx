@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuthStore } from '@/app/authStore';
 import { login, register } from '@/services/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -9,16 +10,21 @@ export const LoginPage: React.FC = () => {
   const setAuth = useAuthStore((s) => s.setAuth);
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
       const { user_id, token } = await login(username, password);
       setAuth({ userId: user_id, token });
+      toast.success('Login successful!');
       navigate('/dashboard');
     } catch (err: any) {
       setError(err?.response?.data?.detail || 'Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,10 +50,38 @@ export const LoginPage: React.FC = () => {
       {error && <div className="text-red-500 text-sm">{error}</div>}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded"
+        className="w-full bg-blue-600 text-white py-2 rounded flex items-center justify-center"
+        disabled={loading}
       >
+        {loading && (
+          <svg
+            className="animate-spin h-5 w-5 mr-2 text-white"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+              fill="none"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            />
+          </svg>
+        )}
         Login
       </button>
+      <div className="text-center text-sm mt-2">
+        Don't have an account?{' '}
+        <Link to="/register" className="text-blue-600 underline">
+          Register
+        </Link>
+      </div>
     </form>
   );
 };
@@ -58,18 +92,23 @@ export const RegisterPage: React.FC = () => {
   const setAuth = useAuthStore((s) => s.setAuth);
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
       const { user_id } = await register(username, password);
       // Auto-login after registration
       const { token } = await login(username, password);
       setAuth({ userId: user_id, token });
+      toast.success('Registration successful!');
       navigate('/dashboard');
     } catch (err: any) {
       setError(err?.response?.data?.detail || 'Registration failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,10 +137,38 @@ export const RegisterPage: React.FC = () => {
       {error && <div className="text-red-500 text-sm">{error}</div>}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded"
+        className="w-full bg-blue-600 text-white py-2 rounded flex items-center justify-center"
+        disabled={loading}
       >
+        {loading && (
+          <svg
+            className="animate-spin h-5 w-5 mr-2 text-white"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+              fill="none"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            />
+          </svg>
+        )}
         Register
       </button>
+      <div className="text-center text-sm mt-2">
+        Already have an account?{' '}
+        <Link to="/login" className="text-blue-600 underline">
+          Login
+        </Link>
+      </div>
     </form>
   );
 };

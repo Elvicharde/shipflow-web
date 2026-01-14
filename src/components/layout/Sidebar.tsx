@@ -43,6 +43,11 @@ export const Sidebar: React.FC = () => {
   const handleToggleSidebar = () => setSidebarOpen((open) => !open);
   const handleCollapse = () => setSidebarCollapsed((collapsed) => !collapsed);
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <aside
       className={`h-screen bg-white border-r flex flex-col justify-between transition-all duration-200 fixed z-40 top-0 left-0
@@ -74,6 +79,16 @@ export const Sidebar: React.FC = () => {
             aria-label="Collapse sidebar"
             className="absolute top-0 right-0 mt-2 mr-2"
           >
+            {/* Logout button at the bottom */}
+            <div className="p-4">
+              <Button
+                variant="danger"
+                onClick={handleLogout}
+                className="w-full"
+              >
+                Logout
+              </Button>
+            </div>
             <img
               src={sidebarCollapsed ? ArrowRightIcon : ArrowLeftIcon}
               alt={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}

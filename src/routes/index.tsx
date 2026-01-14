@@ -1,7 +1,8 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from '../pages/Home';
-import { LoginPage } from '../pages/Auth';
+import AuthLayout from '@/components/layout/AuthLayout';
+import { LoginPage, RegisterPage } from '../pages/Auth';
 import { Layout } from '@/components/layout/Layout';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import WizardLayout from '../pages/BulkShipments/BulkWizard/WizardLayout';
@@ -10,22 +11,33 @@ import BulkList from '../pages/BulkShipments/BulkList';
 import BulkUpload from '../pages/BulkShipments/BulkUpload';
 import ShipmentDetails from '../pages/ShipmentDetails/ShipmentDetails';
 import Settings from '../pages/Settings/Settings';
+import ProtectedRoute from './ProtectedRoute';
 
 function Routes() {
   const router = createBrowserRouter([
     { path: '/', element: <Home /> }, // Home is public
-    { path: '/login', element: <LoginPage /> }, // Login page
+    { path: '/login', element: <AuthLayout><LoginPage /></AuthLayout> }, // Login page
+    { path: '/register', element: <AuthLayout><RegisterPage /></AuthLayout> }, // Register page
     {
       path: '/',
-      element: <Layout />, // Dashboard and protected views use Layout
+      element: <ProtectedRoute />,
       children: [
-        { path: 'dashboard', element: <Dashboard /> },
-        { path: 'dashboard/upload', element: <WizardLayout /> },
-        { path: 'bulkshipments/bulkwizard/success', element: <SuccessPage /> },
-        { path: 'bulk', element: <BulkList /> },
-        { path: 'bulk/upload', element: <BulkUpload /> },
-        { path: 'shipments/:id', element: <ShipmentDetails /> },
-        { path: 'settings', element: <Settings /> },
+        {
+          path: '/',
+          element: <Layout />,
+          children: [
+            { path: 'dashboard', element: <Dashboard /> },
+            { path: 'dashboard/upload', element: <WizardLayout /> },
+            {
+              path: 'bulkshipments/bulkwizard/success',
+              element: <SuccessPage />,
+            },
+            { path: 'bulk', element: <BulkList /> },
+            { path: 'bulk/upload', element: <BulkUpload /> },
+            { path: 'shipments/:id', element: <ShipmentDetails /> },
+            { path: 'settings', element: <Settings /> },
+          ],
+        },
       ],
     },
   ]);
