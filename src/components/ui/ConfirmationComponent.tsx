@@ -11,9 +11,11 @@ import Button from './Button';
 const ConfirmationComponent = ({
   message,
   handleConfirm,
+  isDelete
 }: {
   message: string;
   handleConfirm: () => void;
+  isDelete?: boolean;
 }) => {
   return (
     <AlertDialogContent>
@@ -23,11 +25,11 @@ const ConfirmationComponent = ({
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel asChild>
-          <Button variant="outline">Cancel</Button>
+          <Button variant="primary" className="h-9! w-20!">Cancel</Button>
         </AlertDialogCancel>
         <Button
           onClick={handleConfirm}
-          className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+          className={`${isDelete ? 'bg-red-600 hover:bg-red-700' : 'bg-blue-600 hover:bg-blue-700'} text-white cursor-pointer h-9! w-24!`}
         >
           Continue
         </Button>

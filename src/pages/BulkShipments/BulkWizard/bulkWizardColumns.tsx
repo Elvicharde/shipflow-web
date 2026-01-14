@@ -41,7 +41,7 @@ export const getBulkWizardColumns = (
     cell: ({ row }) => {
       const addr = row.original.ship_from_address;
       return (
-        <div className="w-80 truncate" title={addr || ''}>
+        <div className="w-60 truncate text-sm" title={addr || ''}>
           {addr || '-'}
         </div>
       );
@@ -54,7 +54,7 @@ export const getBulkWizardColumns = (
     cell: ({ row }) => {
       const addr = row.original.ship_to_address;
       return (
-        <div className="w-80 truncate" title={addr || ''}>
+        <div className="w-60 truncate text-sm" title={addr || ''}>
           {addr || '-'}
         </div>
       );

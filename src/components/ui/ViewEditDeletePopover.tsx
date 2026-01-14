@@ -60,7 +60,7 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
         <PopoverButton
           as={Button}
           className={clsx('h-8! w-8! rounded-lg!', styles?.toggleStyles)}
-          variant="outline"
+          variant="primary"
           disabled={disabled}
         >
           <EllipsisVerticalIcon
@@ -68,10 +68,10 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
           />
         </PopoverButton>
         <PopoverPanel
-          anchor="right"
+          anchor="left"
           className={clsx(
             styles?.dialogStyles,
-            'mt-2 max-h-37! w-full max-w-53! rounded-md border border-gray-200 bg-white px-3 py-2 text-left text-sm shadow-popover transition duration-200 ease-in-out',
+            'mt-8 -ml-1! max-h-37! w-fit min-w-40 max-w-53! rounded-md border border-gray-200 bg-white px-3 py-2 text-left text-sm shadow-popover transition duration-200 ease-in-out',
           )}
         >
           {!hideEdit && (
@@ -79,7 +79,7 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
               onClick={() => setIsEditOpen(true)}
               className={clsx(
                 styles?.buttonStyles,
-                'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-light-grey',
+                'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-[#F9FAFB]',
               )}
               variant="none"
             >
@@ -91,7 +91,7 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
               <Button
                 className={clsx(
                   styles?.buttonStyles,
-                  'max-h-9! max-w-45! justify-normal! bg-white text-sm! font-normal text-[#344054]! hover:bg-light-grey mt-1',
+                  'max-h-9! max-w-45! justify-normal! bg-white text-sm! font-normal text-[#344054]! hover:bg-[#F9FAFB] mt-1',
                 )}
                 variant="none"
                 onClick={() => setIsDeleteOpen(true)}
@@ -111,6 +111,7 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
                 <ConfirmationComponent
                   message="Are you sure you want to delete this shipment?"
                   handleConfirm={handleDelete}
+                  isDelete
                 />
               )}
             </AlertDialogOverlay>
