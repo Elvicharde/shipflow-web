@@ -23,11 +23,13 @@ function Routes() {
       element: <ProtectedRoute />,
       children: [
         {
-          path: '/',
+          path: '',
           element: <Layout />,
           children: [
-            { path: 'dashboard', element: <Dashboard /> },
+            { path: '/dashboard', element: <Dashboard /> },
             { path: 'dashboard/upload', element: <WizardLayout /> },
+            { path: 'dashboard/shipments', element: <WizardLayout /> },
+            { path: 'dashboard/analytics', element: <WizardLayout /> },
             {
               path: 'bulkshipments/bulkwizard/success',
               element: <SuccessPage />,

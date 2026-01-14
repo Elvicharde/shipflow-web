@@ -30,7 +30,7 @@ export const LoginPage: React.FC = () => {
 
   return (
     <form onSubmit={handleLogin} className="max-w-sm mx-auto mt-10 space-y-4">
-      <h2 className="text-xl font-bold text-white">Login</h2>
+      <h2 className="text-xl font-bold text-white mb-4!">Login</h2>
       <input
         type="text"
         placeholder="Username"
@@ -120,7 +120,7 @@ export const RegisterPage: React.FC = () => {
       onSubmit={handleRegister}
       className="max-w-sm mx-auto mt-10 space-y-4"
     >
-      <h2 className="text-xl font-bold text-white">Register</h2>
+      <h2 className="text-xl font-bold text-white mb-4!">Register</h2>
       <input
         type="text"
         placeholder="Username"
@@ -140,7 +140,7 @@ export const RegisterPage: React.FC = () => {
       {error && <div className="text-red-400 text-sm">{error}</div>}
       <button
         type="submit"
-        className="w-full bg-linear-to-r from-indigo-500 to-purple-500 text-white py-2 rounded flex items-center justify-center font-bold shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 transition-all duration-300"
+        className="cursor-pointer w-full bg-linear-to-r from-indigo-500 to-purple-500 text-white py-2 rounded flex items-center justify-center font-bold shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 transition-all duration-300"
         disabled={loading}
       >
         {loading && (
@@ -170,7 +170,7 @@ export const RegisterPage: React.FC = () => {
         Already have an account?{' '}
         <Link
           to="/login"
-          className="text-indigo-400 underline hover:text-purple-400 transition-colors"
+          className="cursor-pointertext-indigo-400 underline hover:text-purple-400 transition-colors"
         >
           Login
         </Link>

@@ -16,6 +16,11 @@
   }
 }
 
+#root {
+  margin: 0 auto;
+  height: 100%;
+}
+
 :root {
   font-family: inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -134,6 +139,27 @@ a:hover {
 .error {
   color: red;
   font-size: 0.9em;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+button:focus,
+button:focus-within {
+  outline: none;
+}
+
+input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 @theme inline {

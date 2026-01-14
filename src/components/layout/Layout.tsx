@@ -16,11 +16,11 @@ export const Layout: React.FC = () => {
     Object.keys(routeTitles).find((r) => location.pathname.startsWith(r)) ||
     '/dashboard';
   return (
-    <div className="flex min-h-screen bg-muted font-sans">
+    <div className="flex h-screen bg-muted font-sans overflow-y-hidden no-scrollbar">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Header title={routeTitles[currentRoute] || 'Dashboard'} />
-        <main className="flex-1 p-8 bg-muted/50">
+        <main className="flex-1 p-8 bg-muted/50 overflow-auto no-scrollbar">
           <Outlet />
         </main>
       </div>
