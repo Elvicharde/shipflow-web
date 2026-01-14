@@ -1,6 +1,8 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from '../pages/Home';
+import Shipments from '../pages/Shipments';
+import Analytics from '../pages/Analytics';
 import AuthLayout from '@/components/layout/AuthLayout';
 import { LoginPage, RegisterPage } from '../pages/Auth';
 import { Layout } from '@/components/layout/Layout';
@@ -16,8 +18,22 @@ import ProtectedRoute from './ProtectedRoute';
 function Routes() {
   const router = createBrowserRouter([
     { path: '/', element: <Home /> }, // Home is public
-    { path: '/login', element: <AuthLayout><LoginPage /></AuthLayout> }, // Login page
-    { path: '/register', element: <AuthLayout><RegisterPage /></AuthLayout> }, // Register page
+    {
+      path: '/login',
+      element: (
+        <AuthLayout>
+          <LoginPage />
+        </AuthLayout>
+      ),
+    }, // Login page
+    {
+      path: '/register',
+      element: (
+        <AuthLayout>
+          <RegisterPage />
+        </AuthLayout>
+      ),
+    }, // Register page
     {
       path: '/',
       element: <ProtectedRoute />,
@@ -26,10 +42,16 @@ function Routes() {
           path: '',
           element: <Layout />,
           children: [
-            { path: '/dashboard', element: <Dashboard /> },
-            { path: 'dashboard/upload', element: <WizardLayout /> },
-            { path: 'dashboard/shipments', element: <WizardLayout /> },
-            { path: 'dashboard/analytics', element: <WizardLayout /> },
+            {
+              path: '/dashboard',
+              element: <Dashboard />,
+              children: [
+                { path: '/dashboard/upload', element: <WizardLayout /> },
+              ],
+            },
+
+            { path: '/shipments', element: <Shipments /> },
+            { path: '/analytics', element: <Analytics /> },
             {
               path: 'bulkshipments/bulkwizard/success',
               element: <SuccessPage />,

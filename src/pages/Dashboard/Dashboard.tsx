@@ -196,67 +196,73 @@ const Dashboard: React.FC = () => {
             {/* Shipments Table */}
             <Card className="col-span-2">
               <CardHeader className="flex flex-row items-center justify-between p-4 pb-2">
-                <div className="flex items-center gap-2 w-full">
+                <div className="flex items-center gap-2 w-full pb-4">
                   <Input
                     placeholder="Search by Tracking ID, Recipient or City..."
-                    className="w-80"
+                    className="w-[60%]"
                   />
-                  <Button variant="outline" className="w-10">
-                    All Statuses
+                  {/* <Button variant="primary" className="px-2 h-9! text-sm">
+                    All
                   </Button>
-                  <Button variant="outline" className="w-10">
-                    Service: Ground
+                  <Button variant="primary" className="px-2 h-9! text-sm">
+                    Service
                   </Button>
-                  <Button variant="outline" className="w-10">
+                  <Button variant="primary" className="px-2 h-9! text-sm">
                     Filters
-                  </Button>
+                  </Button> */}
                   <Link to="upload" className="ml-auto">
-                    <Button className="max-h-9 w-40.25! text-sm font-bold cursor-pointer" variant="primary" type="button">
+                    <Button
+                      className="max-h-9 w-35! text-sm font-bold cursor-pointer bg-[#175CFF]"
+                      type="button"
+                    >
                       <PlusIcon className="size-5" />
                       Upload CSV
                     </Button>
                   </Link>
                 </div>
               </CardHeader>
-              <CardContent className="p-0">
+              <CardContent className="px-4">
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
+                  <table className="w-full divide-y divide-gray-200">
                     <thead className="bg-muted">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        <th className="px-2 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                           Tracking Number
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        <th className="px-2 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                           Recipient
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        <th className="px-2 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                           Destination
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        <th className="px-2 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                           Status
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        <th className="px-2 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                           Ship Date
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        <th className="px-2 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                           Actions
                         </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-100">
                       {shipments.map((s, i) => (
-                        <tr key={s.tracking} className="hover:bg-muted/50">
-                          <td className="px-6 py-4 font-medium text-blue-700 cursor-pointer hover:underline">
+                        <tr
+                          key={s.tracking}
+                          className="hover:bg-muted/50 text-sm"
+                        >
+                          <td className="px-2 py-1 font-medium text-blue-700 cursor-pointer hover:underline">
                             {s.tracking}
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="px-2 py-1">
                             <div className="font-medium">{s.recipient}</div>
                             <div className="text-xs text-muted-foreground">
                               {s.recipientType}
                             </div>
                           </td>
-                          <td className="px-6 py-4">{s.destination}</td>
-                          <td className="px-6 py-4">
+                          <td className="px-2 py-1">{s.destination}</td>
+                          <td className="px-2 py-1">
                             {s.status === 'Delivered' && (
                               <Badge variant="secondary">Delivered</Badge>
                             )}
@@ -280,16 +286,16 @@ const Dashboard: React.FC = () => {
                               <Badge variant="destructive">Exception</Badge>
                             )}
                           </td>
-                          <td className="px-6 py-4">{s.date}</td>
-                          <td className="px-6 py-4 text-right">
+                          <td className="px-2 py-1">{s.date}</td>
+                          <td className="px-2 py-1 text-right">
                             <Button
-                              variant="outline"
-                              className="w-10 p-2 rounded-md"
+                              // variant="outline"
+                              className="p-2 rounded-md"
                             >
                               <svg
                                 className="w-5 h-5"
                                 fill="none"
-                                stroke="currentColor"
+                                stroke="black"
                                 strokeWidth="2"
                                 viewBox="0 0 24 24"
                               >
@@ -306,23 +312,23 @@ const Dashboard: React.FC = () => {
                   <div className="flex items-center justify-between px-6 py-3 text-xs text-muted-foreground bg-muted/50 border-t">
                     <span>Showing 1 to 5 of 1,284 shipments</span>
                     <div className="flex gap-1">
-                      <Button variant="outline" className="w-9">
+                      <Button variant="secondary" className="h-9! border">
                         Previous
                       </Button>
-                      <Button variant="secondary" className="w-9">
+                      <Button variant="secondary" className="h-9! border">
                         1
                       </Button>
-                      <Button variant="outline" className="w-9">
+                      <Button variant="secondary" className="h-9! border">
                         2
                       </Button>
-                      <Button variant="outline" className="w-9">
+                      <Button variant="secondary" className="h-9! border">
                         3
                       </Button>
                       <span className="px-2">...</span>
-                      <Button variant="outline" className="w-9">
+                      <Button variant="secondary" className="h-9! border">
                         257
                       </Button>
-                      <Button variant="outline" className="w-9">
+                      <Button variant="secondary" className="h-9! border">
                         Next
                       </Button>
                     </div>
