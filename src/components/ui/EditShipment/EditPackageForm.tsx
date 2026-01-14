@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -62,9 +63,14 @@ const EditPackageForm: React.FC<EditPackageFormProps> = ({
   }, [data, form]);
 
   const onSubmit = async (formData: PackageForm) => {
-    await patchShipment.mutateAsync({ package: formData });
-    refetch?.();
-    onClose();
+    try {
+      await patchShipment.mutateAsync({ package: formData });
+      toast.success('Package updated successfully');
+      refetch?.();
+      onClose();
+    } catch (error: any) {
+      toast.error(error?.message || 'Failed to update package');
+    }
   };
 
   if (isLoading) {

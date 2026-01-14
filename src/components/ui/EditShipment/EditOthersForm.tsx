@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -47,11 +48,16 @@ const EditOthersForm: React.FC<EditOthersFormProps> = ({
   }, [data, form]);
 
   const onSubmit = async (formData: OthersForm) => {
-    await patchShipment.mutateAsync({
-      order_number: formData.order_number ?? undefined,
-    });
-    refetch?.();
-    onClose();
+    try {
+      await patchShipment.mutateAsync({
+        order_number: formData.order_number ?? undefined,
+      });
+      toast.success('Order number updated successfully');
+      refetch?.();
+      onClose();
+    } catch (error: any) {
+      toast.error(error?.message || 'Failed to update order number');
+    }
   };
 
   if (isLoading) {

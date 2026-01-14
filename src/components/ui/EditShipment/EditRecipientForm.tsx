@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -75,9 +76,14 @@ const EditRecipientForm: React.FC<EditRecipientFormProps> = ({
       state: formData.state ?? undefined,
       phone: formData.phone ?? undefined,
     };
-    await patchShipment.mutateAsync({ ship_to: sanitizedFormData });
-    refetch?.();
-    onClose();
+    try {
+      await patchShipment.mutateAsync({ ship_to: sanitizedFormData });
+      toast.success('Recipient updated successfully');
+      refetch?.();
+      onClose();
+    } catch (error: any) {
+      toast.error(error?.message || 'Failed to update recipient');
+    }
   };
 
   if (isLoading) {

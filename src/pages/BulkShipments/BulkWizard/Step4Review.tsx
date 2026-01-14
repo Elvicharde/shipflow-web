@@ -334,15 +334,7 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
           )}
         </AlertDialogContent>
       </AlertDialog>
-      {/* Loader/Success simulation */}
-      {isSubmitting && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-8 flex flex-col items-center">
-            <div className="loader mb-2"></div>
-            <div className="font-semibold">Submitting batch...</div>
-          </div>
-        </div>
-      )}
+      {/* Loader/Success simulation removed: AlertDialog loader is sufficient for submission feedback */}
     </div>
   );
 };
