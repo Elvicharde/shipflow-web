@@ -41,7 +41,6 @@ const EditSenderForm: React.FC<EditSenderFormProps> = ({
     fields: 'ship_from',
   });
 
-  console.log(data);
   const form = useForm<AddressForm>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
