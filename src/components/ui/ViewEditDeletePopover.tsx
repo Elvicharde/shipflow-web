@@ -13,7 +13,9 @@ import { Dialog, DialogTrigger } from './dialog';
 import LoaderComponent from './LoaderComponent';
 import ConfirmationComponent from './ConfirmationComponent';
 import clsx from 'clsx';
-import EditShipmentModal from './EditShipment/EditShipmentModal';
+import EditShipmentModal, {
+  EditSection,
+} from './EditShipment/EditShipmentModal';
 
 interface PopoverStyles {
   buttonStyles?: string;
@@ -40,7 +42,8 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
 }) => {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editSection, setEditSection] = useState<EditSection | null>(null);
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -76,31 +79,20 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
           )}
         >
           {!hideEdit && (
-            <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  onClick={() => setIsEditOpen(true)}
-                  className={clsx(
-                    styles?.buttonStyles,
-                    'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-[#F9FAFB]',
-                  )}
-                  variant="none"
-                >
-                  <img width={20} src="/icons/edit-icon.svg" alt="edit-icon" />
-                  Edit
-                </Button>
-              </DialogTrigger>
-              <EditShipmentModal
-                shipment={data}
-                upload_session_id={data.upload_session_id}
-                refetch={
-                  typeof (window as any).refetch === 'function'
-                    ? (window as any).refetch
-                    : undefined
-                }
-                onClose={() => setIsEditOpen(false)}
-              />
-            </Dialog>
+            <Button
+              onClick={() => {
+                setDialogOpen(true);
+                setEditSection(null);
+              }}
+              className={clsx(
+                styles?.buttonStyles,
+                'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-[#F9FAFB]',
+              )}
+              variant="none"
+            >
+              <img width={20} src="/icons/edit-icon.svg" alt="edit-icon" />
+              Edit
+            </Button>
           )}
           <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
             <AlertDialogTrigger asChild>
@@ -140,6 +132,28 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
           </AlertDialog>
         </PopoverPanel>
       </Popover>
+      {/* Dialog for Edit */}
+      {!hideEdit && (
+        <Dialog
+          open={dialogOpen}
+          // onOpenChange={(open) => {
+          //   setDialogOpen(open ? open : false);
+          // }}
+        >
+          <EditShipmentModal
+            shipment={data}
+            upload_session_id={data.upload_session_id}
+            refetch={
+              typeof (window as any).refetch === 'function'
+                ? (window as any).refetch
+                : undefined
+            }
+            action={editSection}
+            setAction={setEditSection}
+            setModalOpen={setDialogOpen}
+          />
+        </Dialog>
+      )}
     </>
   );
 };
