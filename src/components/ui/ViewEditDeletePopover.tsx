@@ -76,28 +76,49 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
           )}
         >
           {!hideEdit && (
-            <Button
-              onClick={() => setIsEditOpen(true)}
-              className={clsx(
-                styles?.buttonStyles,
-                'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-[#F9FAFB]',
-              )}
-              variant="none"
-            >
-              Edit
-            </Button>
+            <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  onClick={() => setIsEditOpen(true)}
+                  className={clsx(
+                    styles?.buttonStyles,
+                    'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-[#F9FAFB]',
+                  )}
+                  variant="none"
+                >
+                  <img width={20} src="/icons/edit-icon.svg" alt="edit-icon" />
+                  Edit
+                </Button>
+              </DialogTrigger>
+              <EditShipmentModal
+                shipment={data}
+                upload_session_id={data.upload_session_id}
+                refetch={
+                  typeof (window as any).refetch === 'function'
+                    ? (window as any).refetch
+                    : undefined
+                }
+                onClose={() => setIsEditOpen(false)}
+              />
+            </Dialog>
           )}
           <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
             <AlertDialogTrigger asChild>
               <Button
                 className={clsx(
                   styles?.buttonStyles,
-                  'max-h-9! max-w-45! justify-normal! bg-white text-sm! font-normal text-[#344054]! hover:bg-[#F9FAFB] mt-1',
+                  'max-h-9! max-w-45! justify-normal! bg-white text-sm! font-normal hover:bg-[#F9FAFB] mt-1 text-[#D42620]',
                 )}
                 variant="none"
                 onClick={() => setIsDeleteOpen(true)}
                 disabled={isDeleting}
               >
+                <img
+                  width={20}
+                  src="/icons/bin-icon-red.svg"
+                  className="text-red-600"
+                  alt="delete-icon"
+                />
                 Delete
               </Button>
             </AlertDialogTrigger>
@@ -119,38 +140,6 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
           </AlertDialog>
         </PopoverPanel>
       </Popover>
-      {!hideEdit && (
-        <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-          <DialogTrigger asChild>
-            <Button
-              disabled={disabled}
-              className={clsx(
-                styles?.buttonStyles,
-                'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-[#F9FAFB]',
-              )}
-              variant="none"
-              onClick={() => setIsEditOpen(true)}
-            >
-              <img
-                width={20}
-                src="/assets/icons/edit-icon.svg"
-                alt="edit-icon"
-              />
-              Edit item
-            </Button>
-          </DialogTrigger>
-          <EditShipmentModal
-            shipment={data}
-            upload_session_id={data.upload_session_id}
-            refetch={
-              typeof (window as any).refetch === 'function'
-                ? (window as any).refetch
-                : undefined
-            }
-            onClose={() => setIsEditOpen(false)}
-          />
-        </Dialog>
-      )}
     </>
   );
 };

@@ -29,7 +29,7 @@ const ConfirmationComponent = ({
         </AlertDialogCancel>
         <Button
           onClick={handleConfirm}
-          className={`${isDelete ? 'bg-red-600 hover:bg-red-700' : 'bg-blue-600 hover:bg-blue-700'} text-white cursor-pointer h-9! w-24!`}
+          className={`${isDelete ? 'bg-[#D42620] hover:bg-[#B2221B]' : 'bg-blue-600 hover:bg-blue-700'} text-white cursor-pointer h-9! w-24!`}
         >
           Continue
         </Button>

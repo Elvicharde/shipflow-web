@@ -38,13 +38,13 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
 
   return (
     <DialogContent
-      className="sm:max-w-163 overflow-y-auto"
+      className="sm:max-w-163 overflow-y-auto pb-0!"
       open={open}
       onClose={onClose}
     >
       <DialogHeader>
         <DialogTitle>Edit Shipment</DialogTitle>
-        <DialogDescription>
+        <DialogDescription className="mt-2 mb-6 text-sm text-dark-grey">
           What section of this shipment would you like to update?
         </DialogDescription>
       </DialogHeader>
@@ -55,7 +55,7 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
           className="border cursor-pointer flex items-center gap-4 border-[#E4E7EC] rounded-[10px] p-4"
         >
           <Badge className="w-8 h-8 rounded-lg border-[#C6DDF7] border bg-[#E3EFFC]">
-            <img src="/assets/icons/info-blue.svg" alt="" className="w-5 h-5" />
+            <img src="/icons/active-vendors.svg" alt="" className="w-5 h-5" />
           </Badge>
           <p className="text-deep-grey leading-default text-sm">
             Sender Information
@@ -68,7 +68,7 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
         >
           <Badge className="w-8 h-8 rounded-lg border-[#C6DDF7] border bg-[#E3EFFC]">
             <img
-              src="/assets/icons/image-blue.svg"
+              src="/icons/active-client-icon.svg"
               alt=""
               className="w-5 h-5"
             />
@@ -84,7 +84,7 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
         >
           <Badge className="w-8 h-8 rounded-lg border-[#C6DDF7] border bg-[#E3EFFC]">
             <img
-              src="/assets/icons/active-inventory.svg"
+              src="/icons/active-inventory.svg"
               alt=""
               className="w-5 h-5"
             />
@@ -100,7 +100,7 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
         >
           <Badge className="w-8 h-8 rounded-lg border-[#C6DDF7] border bg-[#E3EFFC]">
             <img
-              src="/assets/icons/active-dollar.svg"
+              src="/icons/info-blue.svg"
               alt=""
               className="w-5 h-5"
             />
@@ -111,7 +111,11 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
 
       <DialogFooter>
         <DialogClose>
-          <Button variant="outline" type="button" onClick={onClose}>
+          <Button
+            className="mt-4 px-4 h-9!"
+            variant="confirm"
+            onClick={onClose}
+          >
             Cancel
           </Button>
         </DialogClose>
@@ -151,9 +155,6 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
             refetch={refetch}
           />
         )}
-        <Button className="w-full mt-4" variant="outline" onClick={onClose}>
-          Close
-        </Button>
       </div>
     </DialogContent>
   );
