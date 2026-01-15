@@ -9,6 +9,7 @@ import {
   AlertDialogOverlay,
   AlertDialogTrigger,
 } from './alert-dialog';
+import { Dialog, DialogTrigger } from './dialog';
 import LoaderComponent from './LoaderComponent';
 import ConfirmationComponent from './ConfirmationComponent';
 import clsx from 'clsx';
@@ -119,17 +120,36 @@ const ViewEditDeletePopover: React.FC<ViewEditDeletePopoverProps> = ({
         </PopoverPanel>
       </Popover>
       {!hideEdit && (
-        <EditShipmentModal
-          open={isEditOpen}
-          onClose={() => setIsEditOpen(false)}
-          shipment={data}
-          upload_session_id={data.upload_session_id}
-          refetch={
-            typeof (window as any).refetch === 'function'
-              ? (window as any).refetch
-              : undefined
-          }
-        />
+        <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+          <DialogTrigger asChild>
+            <Button
+              disabled={disabled}
+              className={clsx(
+                styles?.buttonStyles,
+                'max-h-9! max-w-45! justify-normal bg-white text-sm font-normal text-[#344054] hover:bg-[#F9FAFB]',
+              )}
+              variant="none"
+              onClick={() => setIsEditOpen(true)}
+            >
+              <img
+                width={20}
+                src="/assets/icons/edit-icon.svg"
+                alt="edit-icon"
+              />
+              Edit item
+            </Button>
+          </DialogTrigger>
+          <EditShipmentModal
+            shipment={data}
+            upload_session_id={data.upload_session_id}
+            refetch={
+              typeof (window as any).refetch === 'function'
+                ? (window as any).refetch
+                : undefined
+            }
+            onClose={() => setIsEditOpen(false)}
+          />
+        </Dialog>
       )}
     </>
   );
