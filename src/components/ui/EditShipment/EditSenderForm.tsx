@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { set, z } from 'zod';
 import {
   usePatchShipment,
   useGetShipmentBySession,
 } from '@/app/api/shipments-api';
 import { EditSenderData } from '@/types/shipment';
 import Button from '../Button';
+import FormRequestLoader from './FormRequestLoader';
+import ButtonLoader from '../loaders/button-loader';
 
 const addressSchema = z.object({
   name: z.string().min(1, 'Required'),
@@ -35,6 +37,7 @@ const EditSenderForm: React.FC<EditSenderFormProps> = ({
   onClose,
   refetch,
 }) => {
+  const [submitting, setSubmitting] = React.useState(false);
   const patchShipment = usePatchShipment(shipmentId);
   const { data, isLoading } = useGetShipmentBySession<EditSenderData>({
     sessionId,
@@ -57,40 +60,23 @@ const EditSenderForm: React.FC<EditSenderFormProps> = ({
 
   useEffect(() => {
     if (data) {
+      // If data is nested (e.g., { ship_from: { ... } }), use data.ship_from
+      const address = (data as any).ship_from || data;
       form.reset({
-        name:
-          typeof data === 'object' && data !== null && 'name' in data
-            ? (data as any).name
-            : '',
-        address_line1:
-          typeof data === 'object' && data !== null && 'address_line1' in data
-            ? (data as any).address_line1
-            : '',
-        address_line2:
-          typeof data === 'object' && data !== null && 'address_line2' in data
-            ? (data as any).address_line2
-            : '',
-        city:
-          typeof data === 'object' && data !== null && 'city' in data
-            ? (data as any).city
-            : '',
-        state:
-          typeof data === 'object' && data !== null && 'state' in data
-            ? (data as any).state
-            : '',
-        postal_code:
-          typeof data === 'object' && data !== null && 'postal_code' in data
-            ? (data as any).postal_code
-            : '',
-        phone:
-          typeof data === 'object' && data !== null && 'phone' in data
-            ? (data as any).phone
-            : '',
+        name: address.name || '',
+        address_line1: address.address_line1 || '',
+        address_line2: address.address_line2 || '',
+        city: address.city || '',
+        state: address.state || '',
+        postal_code: address.postal_code || '',
+        phone: address.phone || '',
       });
     }
-  }, [data, form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const onSubmit = async (formData: AddressForm) => {
+    setSubmitting(true);
     const sanitizedFormData = {
       ...formData,
       address_line2: formData.address_line2 ?? undefined,
@@ -104,17 +90,20 @@ const EditSenderForm: React.FC<EditSenderFormProps> = ({
       onClose();
     } catch (error: any) {
       toast.error('Failed to update sender. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   if (isLoading) {
-    return <div>Loading sender data...</div>;
+    return <FormRequestLoader message="Loading sender information..." />;
   }
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+      <p className="text-lg font-semibold mb-8">Update Sender Information</p>
       {Object.keys(form.getValues()).map((field) => (
         <div key={field}>
-          <label className="block text-xs font-medium mb-1">
+          <label className="block text-xs font-medium mb-1 capitalize">
             {field.replace(/_/g, ' ')}
           </label>
           <input
@@ -128,9 +117,20 @@ const EditSenderForm: React.FC<EditSenderFormProps> = ({
           )}
         </div>
       ))}
-      <Button type="submit" className="w-full mt-2">
-        Save Sender
-      </Button>
+      <div className="flex flex-col sm:flex-row items-center justify-end gap-2 mt-12">
+        <Button className="px-4 h-9!" variant="primary" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          variant="confirm"
+          className="px-6 h-9!"
+          disabled={submitting}
+        >
+          Update Sender
+          {submitting && <ButtonLoader />}
+        </Button>
+      </div>
     </form>
   );
 };

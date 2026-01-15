@@ -9,6 +9,8 @@ import {
 } from '@/app/api/shipments-api';
 import { EditPackageData } from '@/types/shipment';
 import Button from '../Button';
+import FormRequestLoader from './FormRequestLoader';
+import ButtonLoader from '../loaders/button-loader';
 
 const packageSchema = z.object({
   length_in: z.number().min(0),
@@ -33,6 +35,7 @@ const EditPackageForm: React.FC<EditPackageFormProps> = ({
   onClose,
   refetch,
 }) => {
+  const [submitting, setSubmitting] = React.useState(false);
   const patchShipment = usePatchShipment(shipmentId);
   const { data, isLoading } = useGetShipmentBySession<EditPackageData>({
     sessionId,
@@ -52,37 +55,20 @@ const EditPackageForm: React.FC<EditPackageFormProps> = ({
 
   useEffect(() => {
     if (data) {
+      const pkg = (data as any).package || data;
       form.reset({
-        length_in: Number(
-          typeof data === 'object' && data !== null && 'length_in' in data
-            ? (data as any).length_in
-            : 0,
-        ),
-        width_in: Number(
-          typeof data === 'object' && data !== null && 'width_in' in data
-            ? (data as any).width_in
-            : 0,
-        ),
-        height_in: Number(
-          typeof data === 'object' && data !== null && 'height_in' in data
-            ? (data as any).height_in
-            : 0,
-        ),
-        weight_lbs: Number(
-          typeof data === 'object' && data !== null && 'weight_lbs' in data
-            ? (data as any).weight_lbs
-            : 0,
-        ),
-        weight_oz: Number(
-          typeof data === 'object' && data !== null && 'weight_oz' in data
-            ? (data as any).weight_oz
-            : 0,
-        ),
+        length_in: Number(pkg.length_in) || 0,
+        width_in: Number(pkg.width_in) || 0,
+        height_in: Number(pkg.height_in) || 0,
+        weight_lbs: Number(pkg.weight_lbs) || 0,
+        weight_oz: Number(pkg.weight_oz) || 0,
       });
     }
-  }, [data, form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const onSubmit = async (formData: PackageForm) => {
+    setSubmitting;
     try {
       await patchShipment.mutateAsync({ package: formData });
       toast.success('Package updated successfully');
@@ -90,14 +76,17 @@ const EditPackageForm: React.FC<EditPackageFormProps> = ({
       onClose();
     } catch (error: any) {
       toast.error(error?.message || 'Failed to update package');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   if (isLoading) {
-    return <div>Loading package data...</div>;
+    return <FormRequestLoader message="Loading package information..." />;
   }
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+      <p className="text-lg font-semibold mb-8">Update Package Information</p>
       {Object.keys(form.getValues()).map((field) => (
         <div key={field}>
           <label className="block text-xs font-medium mb-1">
@@ -116,9 +105,20 @@ const EditPackageForm: React.FC<EditPackageFormProps> = ({
           )}
         </div>
       ))}
-      <Button type="submit" className="w-full mt-2">
-        Save Package
-      </Button>
+      <div className="flex flex-col sm:flex-row items-center justify-end gap-2 mt-12">
+        <Button className="px-4 h-9!" variant="primary" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          variant="confirm"
+          className="px-6 h-9!"
+          disabled={submitting}
+        >
+          Update Package
+          {submitting && <ButtonLoader />}
+        </Button>
+      </div>
     </form>
   );
 };

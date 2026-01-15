@@ -17,11 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { set } from 'zod';
 
-export type EditSection =
-  | 'sender'
-  | 'recipient'
-  | 'package'
-  | 'others'
+export type EditSection = 'sender' | 'recipient' | 'package' | 'others';
 
 interface EditShipmentModalProps {
   shipment: UploadResult;
@@ -53,7 +49,7 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
 
   return (
     <DialogContent
-      className="sm:max-w-163 overflow-y-auto pb-0!"
+      className="sm:max-w-163 overflow-y-auto p-8!"
       onInteractOutside={(e) => {
         e.preventDefault();
       }}
@@ -128,6 +124,17 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
               </p>
             </div>
           </div>
+          <DialogFooter>
+            <DialogClose>
+              <Button
+                className="mt-4 px-4 h-9!"
+                variant="confirm"
+                onClick={handleClose}
+              >
+                Cancel
+              </Button>
+            </DialogClose>
+          </DialogFooter>
         </>
       ) : (
         <div className="mt-8">
@@ -135,7 +142,7 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
             <EditSenderForm
               sessionId={String(upload_session_id)}
               shipmentId={shipment.shipment_id}
-              onClose={() => setAction(null)}
+              onClose={handleClose}
               refetch={refetch}
             />
           )}
@@ -143,7 +150,7 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
             <EditRecipientForm
               sessionId={String(upload_session_id)}
               shipmentId={shipment.shipment_id}
-              onClose={() => setAction(null)}
+              onClose={handleClose}
               refetch={refetch}
             />
           )}
@@ -151,7 +158,7 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
             <EditPackageForm
               sessionId={String(upload_session_id)}
               shipmentId={shipment.shipment_id}
-              onClose={() => setAction(null)}
+              onClose={handleClose}
               refetch={refetch}
             />
           )}
@@ -159,23 +166,12 @@ const EditShipmentModal: React.FC<EditShipmentModalProps> = ({
             <EditOthersForm
               sessionId={String(upload_session_id)}
               shipmentId={shipment.shipment_id}
-              onClose={() => setAction(null)}
+              onClose={handleClose}
               refetch={refetch}
             />
           )}
         </div>
       )}
-      <DialogFooter>
-        <DialogClose>
-          <Button
-            className="mt-4 px-4 h-9!"
-            variant="confirm"
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-        </DialogClose>
-      </DialogFooter>
     </DialogContent>
   );
 };
