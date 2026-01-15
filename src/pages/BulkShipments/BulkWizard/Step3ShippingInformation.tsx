@@ -206,14 +206,15 @@ const Step3ShippingInformation: React.FC<Step3ShippingInformationProps> = ({
       </div>
       <div className="flex justify-end gap-4 mt-8">
         <Button
-          variant="outline"
-          className="h-9 px-4"
+          variant="primary"
+          className="h-9! px-4"
           onClick={() => wizard.prevStep()}
         >
           Back
         </Button>
         <Button
-          className="h-9 px-4"
+          className="h-9! px-16"
+          variant="confirm"
           onClick={() => wizard.nextStep()}
           disabled={tableResults.length === 0}
         >

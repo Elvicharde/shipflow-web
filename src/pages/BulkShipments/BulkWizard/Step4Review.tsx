@@ -9,6 +9,7 @@ import { useGetUploadedShipments } from '@/app/api/upload-api';
 import { UploadResponse, UploadResult } from '@/types';
 import { bulkUpdateShippingServiceAndOption } from '@/app/api/shipments-api';
 import { toast } from 'sonner';
+import ButtonLoader from '@/components/ui/loaders/button-loader';
 
 const shippingServices = [
   { value: 'UPS', label: 'UPS' },
@@ -253,15 +254,20 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
 
             <div className="flex gap-2 mt-4 justify-end">
               <Button
-                variant="outline"
-                className="h-9 px-4"
+                variant="primary"
+                className="h-9! px-16 border border-gray-300 rounded"
                 onClick={wizard.prevStep}
               >
                 Back
               </Button>
-              <Button className="h-9 px-4" onClick={() => setConfirm(true)}>
+              {/* <Button
+                className="h-9! px-4"
+                onClick={() => setConfirm(true)}
+                variant="confirm"
+                disabled={isSubmitting}
+              >
                 Submit {total} Shipments
-              </Button>
+              </Button> */}
             </div>
           </div>
 
@@ -296,6 +302,8 @@ const Step4Review: React.FC<{ wizard: WizardHook }> = ({ wizard }) => {
             <Button
               className="w-full h-9 px-4 mb-2"
               onClick={() => setConfirm(true)}
+              variant="confirm"
+              loading={isSubmitting}
             >
               Submit {total} Shipments
             </Button>
